@@ -3,9 +3,11 @@
 var _syncInProgress = false;
 
 function syncPost(data, callback) {
-  if (!GAS_URL) { if (callback) callback(null); return; }
+  if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
+    if (callback) callback(null);
+    return;
+  }
   data.token = APP_TOKEN;
-  data.idToken = localStorage.getItem('lang_id_token');
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -13,33 +15,87 @@ function syncPost(data, callback) {
   })
   .then(function(res) { return res.json(); })
   .then(function(json) {
-    if (json.status === 'error') { showSyncToast('error'); if (callback) callback(null); }
-    else { if (callback) callback(json); }
+    if (json.status === 'error') {
+      console.warn('GAS error:', json.message);
+      showSyncToast('error');
+      if (callback) callback(null);
+    } else {
+      if (callback) callback(json);
+    }
   })
-  .catch(function(err) { showSyncToast('error'); if (callback) callback(null); });
+  .catch(function(err) {
+    console.error('syncPost fetch error:', err);
+    showSyncToast('error');
+    if (callback) callback(null);
+  });
 }
 
 function loadFromServer(lang, callback) {
-  if (!GAS_URL) { if (callback) callback(false); return; }
+  if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
+    if (callback) callback(false);
+    return;
+  }
   showSyncToast('loading');
   syncPost({ action: 'load_lang_db', lang: lang }, function(res) {
-    if (res && res.data) { saveLangData(lang, res.data); showSyncToast('loaded'); if (callback) callback(true); }
-    else { showSyncToast('error'); if (callback) callback(false); }
+    if (res && res.data) {
+      saveLangData(lang, res.data);
+      showSyncToast('loaded');
+      if (callback) callback(true);
+    } else {
+      showSyncToast('error');
+      if (callback) callback(false);
+    }
+  });
+}
+
+function loadBothLangs(callback) {
+  if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
+    if (callback) callback();
+    return;
+  }
+  showSyncToast('loading');
+  var done = 0;
+  var total = 2;
+  function check() {
+    done++;
+    if (done >= total) {
+      showSyncToast('loaded');
+      if (callback) callback();
+    }
+  }
+  syncPost({ action: 'load_lang_db', lang: 'en' }, function(res) {
+    if (res && res.data) saveLangData('en', res.data);
+    check();
+  });
+  syncPost({ action: 'load_lang_db', lang: 'ja' }, function(res) {
+    if (res && res.data) saveLangData('ja', res.data);
+    check();
   });
 }
 
 function saveToServer(lang, callback) {
-  if (!GAS_URL) { if (callback) callback(false); return; }
+  if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
+    if (callback) callback(false);
+    return;
+  }
   var data = getLangData(lang);
   if (!data) { if (callback) callback(false); return; }
+  showSyncToast('saving');
   syncPost({ action: 'save_lang_db', lang: lang, data: data }, function(res) {
-    if (res) { showSyncToast('saved'); if (callback) callback(true); }
-    else { if (callback) callback(false); }
+    if (res) {
+      showSyncToast('saved');
+      if (callback) callback(true);
+    } else {
+      if (callback) callback(false);
+    }
   });
 }
 
 function saveField(lang, field, operation, value, callback) {
-  if (!GAS_URL) { if (callback) callback(false); return; }
+  if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
+    if (callback) callback(false);
+    return;
+  }
   syncPost({ action: 'save_lang_field', lang: lang, field: field, operation: operation, value: value }, function(res) {
     if (callback) callback(!!res);
   });

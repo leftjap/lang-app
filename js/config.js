@@ -1,6 +1,6 @@
 /* ═══ config.js — 설정 상수 ═══ */
 
-var GAS_URL = '';
+var GAS_URL = '__GAS_DEPLOY_URL__';
 var APP_TOKEN = 'lang2026';
 
 var LANG_CONFIG = {

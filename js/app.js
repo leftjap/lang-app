@@ -62,9 +62,9 @@ function init() {
   switchLang(lang);
   showScreen('home');
   hideLoadingScreen();
-  if (GAS_URL) {
-    loadFromServer(lang, function() { renderHome(); });
-  }
+  loadBothLangs(function() {
+    renderHome();
+  });
 }
 
 function startStudy() {
@@ -92,6 +92,8 @@ function startStudy() {
 function finishStudy() {
   stopStudyTimer();
   var duration = getStudyDuration();
+  var lang = getCurrentLang();
+  saveToServer(lang);
   renderStudySummary(duration);
   showScreen('summary');
 }

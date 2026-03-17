@@ -350,9 +350,10 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 
 **핵심 함수:**
 - `syncPost(data, callback)` — GAS POST 요청 공통
-- `loadFromServer(lang, callback)` — 서버에서 언어 데이터 로드
+- `loadFromServer(lang, callback)` — 서버에서 단일 언어 데이터 로드
+- `loadBothLangs(callback)` — 서버에서 EN/JA 양쪽 데이터를 병렬 로드
 - `saveToServer(lang, callback)` — 서버에 언어 데이터 전체 저장
-- `saveField(lang, field, operation, value, callback)` — 특정 필드 append/update
+- `saveField(lang, field, operation, value, callback)` — 특정 필드 append/update/merge
 
 **토스트:**
 - `showSyncToast(status)` — 동기화 상태 토스트 (saving/saved/loading/loaded/error)
@@ -504,13 +505,25 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 ---
 
 ### gas/Code.gs
-**역할:** 어학앱 전용 GAS 서버. (Phase 1~2에서 구현 예정)
+**역할:** 어학앱 전용 GAS 서버.
 
-**API action (예정):**
-- `load_lang_db` — Google Drive에서 언어 JSON 로드
-- `save_lang_field` — 특정 필드 append/update
-- `save_lang_db` — JSON 전체 저장
-- `get_speech_token` — Azure Speech 토큰 발급 프록시
+**인증:**
+- `getUserConfig(idToken, fallbackToken)` — JWT 또는 토큰 기반 사용자 식별
+
+**라우터:**
+- `doPost(e)` — action 분기 (load_lang_db, save_lang_db, save_lang_field)
+- `doGet(e)` — 상태 확인용
+
+**데이터 접근:**
+- `getRootFolder(config)` — Google Drive 루트폴더 (`lang-app`)
+- `getLangFile(lang, config)` — 언어별 JSON 파일 접근/생성
+- `loadLangDb(lang, config)` — JSON 읽기
+- `saveLangDb(lang, data, config)` — JSON 전체 저장 (LockService)
+- `saveLangField(lang, field, operation, value, config)` — 필드 단위 저장 (append/update/merge, LockService)
+
+**유틸:**
+- `getOrCreateFolder(parentFolder, name)` — 폴더 찾기/생성
+- `_jsonResponse(obj)` — JSON ContentService 응답
 
 ---
 
@@ -742,38 +755,48 @@ getComputedStyle(document.getElementById('요소ID')).display
 원인 파악 후 코드 수정 또는 데이터 정리
 근본 원인이 코드에 있으면 재발 방지 수정 진행
 18. 구현 Phase 진행 상황
-Phase 1 — 뼈대 (📋 진행 중)
- index.html + style.css (gorilla CSS 변수 기반)
- 화면 전환 (메인 → 학습 진행 → 완료 요약 → 기록)
- 언어 탭 (EN / JP)
- GAS 프로젝트 생성 + JSON 로드/세이브
- 메인 화면 레이아웃 (주간 캘린더 + 요약 + 공부 시작 버튼)
-Phase 2 — 카드 스와이프 + 복습
- 카드 스와이프 컴포넌트 (복습/신규 공용)
- reviewQueue에서 오늘 복습 대상 추출
- 복습 카드 UI (정답 보기 → TTS + 마이크 → O/△/X)
- 복습 판정 시 reviewQueue 직접 갱신
- 복습 완료 → 신규 학습 전환 로직
-Phase 3 — 발음 연습
- Azure Speech SDK 통합
- GAS 토큰 프록시
- 바텀 모달 (녹음 → 실시간 채점 → 결과 표시)
- pronHistory 저장
- dailyPracticeStats 실시간 갱신
-Phase 4 — 프로그레스바 + PR
- 발화량 프로그레스바 (고정 영역)
- 발음 PR 표시 + 더보기 바텀시트
- prRecords 갱신
- 학습 완료 요약 화면
-Phase 5 — 신규 학습 + todayLesson
- todayLesson JSON 읽기
- 신규 학습 카드 (해설 펼치기/접기, 카드 내부 스크롤)
- TTS 재생
-Phase 6 — 기록/통계
- 월간 캘린더 (gorilla stats에서)
- 날짜 선택 → 해당일 기록 표시
- 문장별 발음 히스토리
- 월간 통계/차트
+
+### Phase 1 — 뼈대 (✅ 완료)
+- [x] index.html + style.css (gorilla CSS 변수 기반)
+- [x] 화면 전환 (메인 → 학습 진행 → 완료 요약 → 기록)
+- [x] 언어 탭 (EN / JP)
+- [x] GAS 프로젝트 생성 + JSON 로드/세이브
+- [x] 메인 화면 레이아웃 (주간 캘린더 + 요약 + 공부 시작 버튼)
+
+### Phase 2 — 카드 스와이프 + 복습 (📋 진행 중)
+- [x] GAS 서버 구현 (load_lang_db, save_lang_db, save_lang_field)
+- [x] 양 언어 병렬 동기화 (loadBothLangs)
+- [x] 복습 판정 후 서버 저장 (judgeReview → saveToServer)
+- [x] 학습 종료 시 서버 저장 (finishStudy → saveToServer)
+- [ ] 카드 스와이프 컴포넌트 (복습/신규 공용)
+- [ ] reviewQueue에서 오늘 복습 대상 추출
+- [ ] 복습 카드 UI (정답 보기 → TTS + 마이크 → O/△/X)
+- [ ] 복습 판정 시 reviewQueue 직접 갱신
+- [ ] 복습 완료 → 신규 학습 전환 로직
+
+### Phase 3 — 발음 연습
+- [ ] Azure Speech SDK 통합
+- [ ] GAS 토큰 프록시
+- [ ] 바텀 모달 (녹음 → 실시간 채점 → 결과 표시)
+- [ ] pronHistory 저장
+- [ ] dailyPracticeStats 실시간 갱신
+
+### Phase 4 — 프로그레스바 + PR
+- [ ] 발화량 프로그레스바 (고정 영역)
+- [ ] 발음 PR 표시 + 더보기 바텀시트
+- [ ] prRecords 갱신
+- [ ] 학습 완료 요약 화면
+
+### Phase 5 — 신규 학습 + todayLesson
+- [ ] todayLesson JSON 읽기
+- [ ] 신규 학습 카드 (해설 펼치기/접기, 카드 내부 스크롤)
+- [ ] TTS 재생
+
+### Phase 6 — 기록/통계
+- [ ] 월간 캘린더 (gorilla stats에서)
+- [ ] 날짜 선택 → 해당일 기록 표시
+- [ ] 문장별 발음 히스토리
+- [ ] 월간 통계/차트
 19. 관련 프로젝트 참조
 gorilla (운동앱)
 레포: https://github.com/leftjap/gorilla

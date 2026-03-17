@@ -91,6 +91,7 @@ function judgeReview(result) {
     }
   }
   saveLangData(lang, data);
+  saveToServer(lang);
   _reviewIndex++;
   renderReviewCard();
 }
