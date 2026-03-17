@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "language": "english",
+    "version": "1.0",
+    "lastSession": null,
+    "totalDays": 0,
+    "totalMinutes": 0,
+    "currentStreak": 0,
+    "longestStreak": 0,
+    "currentCategory": null
+  },
+  "stats": {
+    "totalSentences": 0,
+    "reviewPending": 0,
+    "reviewCompleted60d": 0,
+    "recentSuccessRate": null,
+    "writingExercises": 0,
+    "voiceSessions": 0
+  },
+  "reviewQueue": [],
+  "weaknesses": [],
+  "strengths": [],
+  "writingPatterns": [],
+  "writingErrors": [],
+  "sessionLogs": [],
+  "contractionMap": [
+    {"original": "going to", "contraction": "gonna", "pronunciation": "거나", "status": "대기"},
+    {"original": "want to", "contraction": "wanna", "pronunciation": "워나", "status": "대기"},
+    {"original": "got to", "contraction": "gotta", "pronunciation": "가라", "status": "대기"},
+    {"original": "have to", "contraction": "hafta", "pronunciation": "해프타", "status": "대기"},
+    {"original": "used to", "contraction": "usta", "pronunciation": "유스타", "status": "대기"},
+    {"original": "kind of", "contraction": "kinda", "pronunciation": "카인다", "status": "대기"},
+    {"original": "sort of", "contraction": "sorta", "pronunciation": "소어타", "status": "대기"},
+    {"original": "a lot of", "contraction": "alotta", "pronunciation": "얼라타", "status": "대기"},
+    {"original": "let me", "contraction": "lemme", "pronunciation": "레미", "status": "대기"},
+    {"original": "give me", "contraction": "gimme", "pronunciation": "기미", "status": "대기"},
+    {"original": "did you", "contraction": "didja", "pronunciation": "디쟈", "status": "대기"},
+    {"original": "would you", "contraction": "wouldja", "pronunciation": "우쟈", "status": "대기"},
+    {"original": "don't know", "contraction": "dunno", "pronunciation": "더노", "status": "대기"},
+    {"original": "isn't it", "contraction": "innit", "pronunciation": "이닛", "status": "대기"},
+    {"original": "should have", "contraction": "shoulda", "pronunciation": "슈다", "status": "대기"},
+    {"original": "could have", "contraction": "coulda", "pronunciation": "쿠다", "status": "대기"},
+    {"original": "would have", "contraction": "woulda", "pronunciation": "우다", "status": "대기"},
+    {"original": "out of", "contraction": "outta", "pronunciation": "아우타", "status": "대기"},
+    {"original": "what are you", "contraction": "whatcha", "pronunciation": "왓챠", "status": "대기"},
+    {"original": "I'm going to", "contraction": "I'mma", "pronunciation": "아이마", "status": "대기"}
+  ],
+  "linkingRules": [
+    {"rule": "자음+모음 연결", "example": "pick it up", "sound": "피키럽", "status": "대기"},
+    {"rule": "t/d 탈락", "example": "last night", "sound": "래스나잇", "status": "대기"},
+    {"rule": "h 탈락", "example": "tell him", "sound": "텔림", "status": "대기"},
+    {"rule": "t→d/r (flap t)", "example": "water, better", "sound": "워러, 베러", "status": "대기"},
+    {"rule": "약모음화", "example": "to, for, of → tuh, fer, uhv", "sound": null, "status": "대기"},
+    {"rule": "n+y 결합", "example": "in your → inyer", "sound": "이뉴어", "status": "대기"},
+    {"rule": "d+y 결합", "example": "did you → didju", "sound": "디쥬", "status": "대기"},
+    {"rule": "t+y 결합", "example": "don't you → donchu", "sound": "돈츄", "status": "대기"}
+  ],
+  "categories": [
+    {"id": "A", "name": "서바이벌 표현", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "B", "name": "연음/축약 규칙", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "C", "name": "일상 대화 패턴", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "D", "name": "내 사정 설명하기", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "E", "name": "여행 실전", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "F", "name": "넷플릭스 빈출 표현", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "G", "name": "영어 메일 쓰기", "status": "대기", "startDate": null, "endDate": null},
+    {"id": "H", "name": "뉴스/유튜브 이해", "status": "대기", "startDate": null, "endDate": null}
+  ]
+}

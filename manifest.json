@@ -1,0 +1,10 @@
+{
+  "name": "Lang",
+  "short_name": "Lang",
+  "description": "어학 학습 앱",
+  "start_url": "/lang-app/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#F5F5F5",
+  "icons": []
+}

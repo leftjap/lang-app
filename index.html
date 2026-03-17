@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Lang</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lang">
+  <meta name="theme-color" content="#F5F5F5">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 로딩 화면 -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-text">불러오는 중</div>
+  </div>
+
+  <div id="app">
+    <!-- 학습 진행 헤더 (숨겨진 상태) -->
+    <header id="studyHeader" class="study-header" style="display:none;">
+      <div class="sh-left">
+        <button class="sh-back" id="studyBackBtn" onclick="onStudyBack()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      </div>
+      <div class="sh-center">
+        <span class="sh-timer" id="studyTimer">00:00</span>
+      </div>
+      <div class="sh-right"></div>
+    </header>
+
+    <!-- 메인 화면 -->
+    <main id="main-view" class="main-view">
+      <!-- 요약 + 아이콘 -->
+      <div id="summaryMsg" class="summary-msg"></div>
+
+      <!-- 언어 탭 -->
+      <div id="langTabs" class="lang-tabs">
+        <button class="lang-tab active" data-lang="en" onclick="switchLang('en')">English</button>
+        <button class="lang-tab" data-lang="ja" onclick="switchLang('ja')">日本語</button>
+      </div>
+
+      <!-- 주간 캘린더 -->
+      <div id="weekCal" class="week-cal-container"></div>
+
+      <!-- 직전 학습 카드 -->
+      <div id="lastStudyCard" class="last-study-card"></div>
+    </main>
+
+    <!-- 학습 진행 화면 -->
+    <div id="screen-study" class="screen"></div>
+
+    <!-- 학습 완료 요약 -->
+    <div id="screen-summary" class="screen"></div>
+
+    <!-- 기록 화면 -->
+    <div id="screen-stats" class="screen">
+      <div id="statsContent" class="stats-screen-content"></div>
+    </div>
+
+    <!-- 설정 화면 -->
+    <div id="screen-settings" class="screen">
+      <div id="settingsContent" class="settings-content"></div>
+    </div>
+
+    <!-- 바텀시트 -->
+    <div id="bottomSheetOverlay" class="bottom-sheet-overlay" style="display:none;" onclick="closeBottomSheet()"></div>
+    <div id="bottomSheet" class="bottom-sheet" style="display:none;">
+      <div class="bottom-sheet-handle"></div>
+      <button class="bottom-sheet-close" onclick="closeBottomSheet()">✕</button>
+      <div id="bottomSheetContent" class="bottom-sheet-content"></div>
+    </div>
+  </div>
+
+  <!-- 동기화 상태 -->
+  <div id="syncStatus" class="sync-toast"></div>
+
+  <!-- 공부 시작 버튼 (고정) -->
+  <button class="start-study" id="bottomBtn" onclick="onBottomBtnClick()">공부 시작</button>
+
+  <!-- 액션시트 -->
+  <div id="actionSheetOverlay" class="action-sheet-overlay" onclick="hideActionSheet()"></div>
+  <div id="actionSheet" class="action-sheet"></div>
+
+  <!-- 확인 모달 -->
+  <div id="confirmModal" class="confirm-modal-overlay" style="display:none;">
+    <div class="confirm-modal">
+      <div class="confirm-modal-msg" id="confirmModalMsg"></div>
+      <div class="confirm-modal-btns">
+        <button class="confirm-modal-cancel" onclick="hideConfirm(false)">취소</button>
+        <button class="confirm-modal-ok" onclick="hideConfirm(true)">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/review.js"></script>
+  <script src="js/lesson.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/practice.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/swipe.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
