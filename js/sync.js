@@ -54,22 +54,13 @@ function loadBothLangs(callback) {
     return;
   }
   showSyncToast('loading');
-  var done = 0;
-  var total = 2;
-  function check() {
-    done++;
-    if (done >= total) {
-      showSyncToast('loaded');
-      if (callback) callback();
-    }
-  }
   syncPost({ action: 'load_lang_db', lang: 'en' }, function(res) {
     if (res && res.data) saveLangData('en', res.data);
-    check();
-  });
-  syncPost({ action: 'load_lang_db', lang: 'ja' }, function(res) {
-    if (res && res.data) saveLangData('ja', res.data);
-    check();
+    syncPost({ action: 'load_lang_db', lang: 'ja' }, function(res2) {
+      if (res2 && res2.data) saveLangData('ja', res2.data);
+      showSyncToast('loaded');
+      if (callback) callback();
+    });
   });
 }
 
