@@ -52,6 +52,7 @@ function renderLessonCard() {
         '</button>' +
       '</div>' +
       (detailHtml ? '<button class="lesson-expand-btn" onclick="toggleLessonDetail(this)">해설 보기</button><div class="lesson-detail">' + detailHtml + '</div>' : '') +
+      '<button class="lesson-next-btn" onclick="nextLessonCard()">' + (_lessonIndex < _lessonItems.length - 1 ? '다음' : '완료') + '</button>' +
     '</div>';
 }
 

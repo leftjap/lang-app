@@ -698,6 +698,24 @@ button {
   background: var(--border-gray);
 }
 
+.lesson-next-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--dark);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+
+.lesson-next-btn:active {
+  transform: scale(0.98);
+  background: #1a1a1a;
+}
+
 .lesson-detail {
   display: none;
   margin-top: 16px;
