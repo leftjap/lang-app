@@ -440,7 +440,8 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 - `renderLessonCard()` — 현재 신규 카드 렌더 (문장 + 뜻 + TTS + 해설)
 - `buildDetailSection(title, body)` — 해설 섹션 HTML 생성
 - `toggleLessonDetail(btn)` — 해설 펼침/접기
-- `nextLessonCard()` — 다음 카드로 이동
+- `nextLessonCard()` — 다음 카드로 이동 (스와이프 애니메이션 포함)
+- `bindLessonSwipe()` — 신규 카드 좌 스와이프 터치 이벤트 바인딩
 
 ---
 
@@ -768,7 +769,7 @@ getComputedStyle(document.getElementById('요소ID')).display
 - [x] 양 언어 병렬 동기화 (loadBothLangs)
 - [x] 복습 판정 후 서버 저장 (judgeReview → saveToServer)
 - [x] 학습 종료 시 서버 저장 (finishStudy → saveToServer)
-- [ ] 카드 스와이프 컴포넌트 (복습/신규 공용)
+- [x] 카드 스와이프 애니메이션 (복습: 판정 버튼 탭 시 방향별 / 신규: 좌 스와이프 + 버튼)
 - [ ] reviewQueue에서 오늘 복습 대상 추출
 - [ ] 복습 카드 UI (정답 보기 → TTS + 마이크 → O/△/X)
 - [ ] 복습 판정 시 reviewQueue 직접 갱신
@@ -780,6 +781,7 @@ getComputedStyle(document.getElementById('요소ID')).display
 - [ ] 바텀 모달 (녹음 → 실시간 채점 → 결과 표시)
 - [ ] pronHistory 저장
 - [ ] dailyPracticeStats 실시간 갱신
+- [ ] 프로그레스바 실시간 갱신 (utterances는 Azure STT 발화 완료 시에만 +1)
 
 ### Phase 4 — 프로그레스바 + PR
 - [ ] 발화량 프로그레스바 (고정 영역)

@@ -92,8 +92,23 @@ function judgeReview(result) {
   }
   saveLangData(lang, data);
   saveToServer(lang);
-  _reviewIndex++;
-  renderReviewCard();
+
+  var card = document.getElementById('currentCard');
+  if (card) {
+    var animClass = 'card-swipe-out-left';
+    if (result === 'O') animClass = 'card-swipe-out-right';
+    else if (result === '△') animClass = 'card-swipe-out-up';
+    card.classList.add(animClass);
+    setTimeout(function() {
+      _reviewIndex++;
+      renderReviewCard();
+      var newCard = document.getElementById('currentCard');
+      if (newCard) newCard.classList.add('card-swipe-in');
+    }, 300);
+  } else {
+    _reviewIndex++;
+    renderReviewCard();
+  }
 }
 
 function onReviewDone() {

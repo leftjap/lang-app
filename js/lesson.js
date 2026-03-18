@@ -38,7 +38,7 @@ function renderLessonCard() {
   }
 
   area.innerHTML =
-    '<div class="lesson-card">' +
+    '<div class="lesson-card" id="currentLessonCard">' +
       '<div class="lesson-card-header">NEW</div>' +
       '<div class="lesson-sentence">' + item.sentence + '</div>' +
       (item.reading ? '<div class="lesson-reading">' + item.reading + '</div>' : '') +
@@ -54,6 +54,8 @@ function renderLessonCard() {
       (detailHtml ? '<button class="lesson-expand-btn" onclick="toggleLessonDetail(this)">해설 보기</button><div class="lesson-detail">' + detailHtml + '</div>' : '') +
       '<button class="lesson-next-btn" onclick="nextLessonCard()">' + (_lessonIndex < _lessonItems.length - 1 ? '다음' : '완료') + '</button>' +
     '</div>';
+
+  bindLessonSwipe();
 }
 
 function buildDetailSection(title, body) {
@@ -76,6 +78,69 @@ function toggleLessonDetail(btn) {
 }
 
 function nextLessonCard() {
-  _lessonIndex++;
-  renderLessonCard();
+  var card = document.querySelector('.lesson-card');
+  if (card) {
+    card.classList.add('card-swipe-out-left');
+    setTimeout(function() {
+      _lessonIndex++;
+      renderLessonCard();
+      var newCard = document.querySelector('.lesson-card');
+      if (newCard) newCard.classList.add('card-swipe-in');
+    }, 300);
+  } else {
+    _lessonIndex++;
+    renderLessonCard();
+  }
+}
+
+function bindLessonSwipe() {
+  var card = document.getElementById('currentLessonCard');
+  if (!card) return;
+  var startX = 0, startY = 0, dragging = false, dx = 0;
+  var THRESHOLD = 80;
+
+  card.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    dragging = false;
+    dx = 0;
+  }, { passive: true });
+
+  card.addEventListener('touchmove', function(e) {
+    var tx = e.touches[0].clientX;
+    var ty = e.touches[0].clientY;
+    dx = tx - startX;
+    var dy = Math.abs(ty - startY);
+    if (!dragging) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > dy) {
+        dragging = true;
+        card.classList.add('swiping');
+      } else if (dy > 10) {
+        return;
+      }
+    }
+    if (dragging && dx < 0) {
+      card.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.05) + 'deg)';
+    }
+  }, { passive: true });
+
+  card.addEventListener('touchend', function() {
+    if (!dragging) return;
+    card.classList.remove('swiping');
+    if (dx < -THRESHOLD) {
+      card.classList.add('card-swipe-out-left');
+      setTimeout(function() {
+        _lessonIndex++;
+        renderLessonCard();
+        var newCard = document.getElementById('currentLessonCard');
+        if (newCard) newCard.classList.add('card-swipe-in');
+      }, 300);
+    } else {
+      card.classList.add('swipe-animating');
+      card.style.transform = '';
+      setTimeout(function() {
+        card.classList.remove('swipe-animating');
+      }, 300);
+    }
+  }, { passive: true });
 }

@@ -753,6 +753,58 @@ button {
   font-weight: 600;
 }
 
+/* ── 카드 스와이프 애니메이션 ── */
+.card-area {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-swipe-out-left {
+  animation: swipeOutLeft 0.3s ease forwards;
+}
+
+.card-swipe-out-right {
+  animation: swipeOutRight 0.3s ease forwards;
+}
+
+.card-swipe-out-up {
+  animation: swipeOutUp 0.3s ease forwards;
+}
+
+.card-swipe-in {
+  animation: swipeIn 0.25s ease forwards;
+}
+
+@keyframes swipeOutLeft {
+  0% { transform: translateX(0) rotate(0); opacity: 1; }
+  100% { transform: translateX(-120%) rotate(-8deg); opacity: 0; }
+}
+
+@keyframes swipeOutRight {
+  0% { transform: translateX(0) rotate(0); opacity: 1; }
+  100% { transform: translateX(120%) rotate(8deg); opacity: 0; }
+}
+
+@keyframes swipeOutUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-120%); opacity: 0; }
+}
+
+@keyframes swipeIn {
+  0% { transform: translateX(60px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* 신규 카드 스와이프 터치 */
+.lesson-card.swiping {
+  will-change: transform;
+  transition: none;
+}
+
+.lesson-card.swipe-animating {
+  transition: transform 0.3s ease;
+}
+
 /* ── 학습 완료 요약 ── */
 .study-summary {
   padding: 40px 20px 20px 20px;
