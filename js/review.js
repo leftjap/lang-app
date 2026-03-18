@@ -3,6 +3,9 @@
 var _reviewQueue = [];
 var _reviewIndex = 0;
 var _reviewRevealed = false;
+var _sessionReviewO = 0;
+var _sessionReviewTri = 0;
+var _sessionReviewX = 0;
 
 function getReviewItems() {
   var lang = getCurrentLang();
@@ -70,6 +73,7 @@ function judgeReview(result) {
       var q = data.reviewQueue[i];
       q.lastResult = result;
       if (result === 'O') {
+        _sessionReviewO++;
         var next = getNextInterval(q.currentInterval);
         if (next === null) {
           data.reviewQueue.splice(i, 1);
@@ -79,10 +83,12 @@ function judgeReview(result) {
           q.consecutivePasses = (q.consecutivePasses || 0) + 1;
         }
       } else if (result === '△') {
+        _sessionReviewTri++;
         var mid = getMidInterval(q.currentInterval);
         q.nextReview = addDays(todayStr, mid);
         q.consecutivePasses = 0;
       } else {
+        _sessionReviewX++;
         q.currentInterval = 1;
         q.nextReview = addDays(todayStr, 1);
         q.consecutivePasses = 0;

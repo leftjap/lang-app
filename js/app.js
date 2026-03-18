@@ -72,6 +72,10 @@ function startStudy() {
   var data = getLangData(lang);
   _reviewQueue = getReviewItems();
   _reviewIndex = 0;
+  _sessionReviewO = 0;
+  _sessionReviewTri = 0;
+  _sessionReviewX = 0;
+  _sessionNewCount = 0;
   showScreen('study');
   startStudyTimer();
   var studyScreen = document.getElementById('screen-study');
@@ -124,7 +128,49 @@ function renderStudySummary(duration) {
   var el = document.getElementById('screen-summary');
   if (!el) return;
   var lang = getCurrentLang();
+  var data = getLangData(lang);
   var todayStr = today();
+  var totalReview = _sessionReviewO + _sessionReviewTri + _sessionReviewX;
+  var utterances = 0;
+  if (data && data.dailyPracticeStats && data.dailyPracticeStats[todayStr]) {
+    utterances = data.dailyPracticeStats[todayStr].utterances || 0;
+  }
+
+  var reviewCardHtml = '';
+  if (totalReview > 0) {
+    reviewCardHtml =
+      '<div class="summary-card">' +
+        '<div class="summary-card-header">복습 결과</div>' +
+        '<div class="summary-review-row">' +
+          '<div class="summary-review-item"><div class="summary-review-count pass">' + _sessionReviewO + '</div><div class="summary-review-label">O 통과</div></div>' +
+          '<div class="summary-review-item"><div class="summary-review-count partial">' + _sessionReviewTri + '</div><div class="summary-review-label">△ 부분</div></div>' +
+          '<div class="summary-review-item"><div class="summary-review-count fail">' + _sessionReviewX + '</div><div class="summary-review-label">X 다시</div></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var newCardHtml = '';
+  if (_sessionNewCount > 0) {
+    newCardHtml =
+      '<div class="summary-card">' +
+        '<div class="summary-card-header">신규 학습</div>' +
+        '<div class="summary-stats-row">' +
+          '<div class="summary-stat-item"><div class="summary-stat-val">' + _sessionNewCount + '<small>개</small></div><div class="summary-stat-label">새로운 표현</div></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var utteranceHtml = '';
+  if (utterances > 0) {
+    utteranceHtml =
+      '<div class="summary-card">' +
+        '<div class="summary-card-header">오늘 발화량</div>' +
+        '<div class="summary-stats-row">' +
+          '<div class="summary-stat-item"><div class="summary-stat-val">' + utterances + '<small>회</small></div><div class="summary-stat-label">총 발화</div></div>' +
+        '</div>' +
+      '</div>';
+  }
+
   el.innerHTML =
     '<div class="study-summary">' +
       '<div class="summary-top">' +
@@ -137,6 +183,9 @@ function renderStudySummary(duration) {
           '<div class="summary-stat-item"><div class="summary-stat-val">' + (duration || '< 1') + '<small>분</small></div><div class="summary-stat-label">소요 시간</div></div>' +
         '</div>' +
       '</div>' +
+      reviewCardHtml +
+      newCardHtml +
+      utteranceHtml +
     '</div>';
 }
 

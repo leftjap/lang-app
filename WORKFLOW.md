@@ -413,7 +413,7 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 **역할:** 복습 카드 렌더, 판정, reviewQueue 갱신.
 
 **상태:**
-- 모듈 내 변수: `_reviewQueue`, `_reviewIndex`, `_reviewRevealed`
+- 모듈 내 변수: `_reviewQueue`, `_reviewIndex`, `_reviewRevealed`, `_sessionReviewO`, `_sessionReviewTri`, `_sessionReviewX`
 
 **핵심 함수:**
 - `getReviewItems()` — 오늘 복습 대상 추출 (nextReview <= today)
@@ -433,7 +433,7 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 **역할:** 신규 학습 카드 렌더, todayLesson 데이터 표시.
 
 **상태:**
-- 모듈 내 변수: `_lessonItems`, `_lessonIndex`
+- 모듈 내 변수: `_lessonItems`, `_lessonIndex`, `_sessionNewCount`
 
 **핵심 함수:**
 - `startLessonCards()` — todayLesson에서 신규 항목 로드 → 카드 시작
@@ -551,6 +551,10 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 | _syncInProgress | sync.js | 동기화 진행 중 플래그 |
 | _studyStartTime | app.js | 학습 시작 시각 |
 | _studyTimerInterval | app.js | 학습 타이머 setInterval ID |
+| _sessionReviewO | review.js | 세션 내 O 판정 카운터 |
+| _sessionReviewTri | review.js | 세션 내 △ 판정 카운터 |
+| _sessionReviewX | review.js | 세션 내 X 판정 카운터 |
+| _sessionNewCount | lesson.js | 세션 내 신규 카드 학습 카운터 |
 
 ---
 
@@ -787,7 +791,7 @@ getComputedStyle(document.getElementById('요소ID')).display
 - [ ] 발화량 프로그레스바 (고정 영역)
 - [ ] 발음 PR 표시 + 더보기 바텀시트
 - [ ] prRecords 갱신
-- [ ] 학습 완료 요약 화면
+- [x] 학습 완료 요약 화면 (학습 시간 + 복습 O/△/X + 신규 수 + 발화량)
 
 ### Phase 5 — 신규 학습 + todayLesson
 - [ ] todayLesson JSON 읽기
@@ -795,10 +799,10 @@ getComputedStyle(document.getElementById('요소ID')).display
 - [ ] TTS 재생
 
 ### Phase 6 — 기록/통계
-- [ ] 월간 캘린더 (gorilla stats에서)
-- [ ] 날짜 선택 → 해당일 기록 표시
+- [x] 월간 캘린더 (gorilla stats에서)
+- [x] 날짜 선택 → 해당일 기록 표시 (빈 날짜 메시지 + 복습 O/△/X 상세)
 - [ ] 문장별 발음 히스토리
-- [ ] 월간 통계/차트
+- [x] 월간 통계/차트
 19. 관련 프로젝트 참조
 gorilla (운동앱)
 레포: https://github.com/leftjap/gorilla

@@ -6,6 +6,10 @@ var _statsSelectedDate = today();
 function renderStatsScreen() {
   var el = document.getElementById('statsContent');
   if (!el) return;
+  var todayYM = getYM(today());
+  if (_statsYM === todayYM) {
+    _statsSelectedDate = today();
+  }
   el.innerHTML = '';
   renderStatsHeader();
   renderStatsSummary();
@@ -103,13 +107,10 @@ function renderStatsMonthCal() {
 }
 
 function bindStatsCalEvents(container) {
-  var cells = container.querySelectorAll('.stats-cal-cell:not(.empty)');
+  var cells = container.querySelectorAll('.stats-cal-cell:not(.empty):not(.future)');
   for (var i = 0; i < cells.length; i++) {
     (function(cell) {
       var dateStr = cell.getAttribute('data-date');
-      var isFuture = cell.getAttribute('data-future') === '1';
-      var hasData = cell.getAttribute('data-has-data') === '1';
-      if (isFuture || !hasData) return;
       cell.addEventListener('click', function() {
         _statsSelectedDate = dateStr;
         renderStatsScreen();
@@ -123,9 +124,18 @@ function renderStatsStudyCard() {
   if (!el) return;
   var lang = getCurrentLang();
   var data = getLangData(lang);
-  if (!data || !data.sessionLogs) return;
-  var sessions = data.sessionLogs.filter(function(s) { return s.date === _statsSelectedDate; });
-  if (sessions.length === 0) return;
+  var sessions = (data && data.sessionLogs) ? data.sessionLogs.filter(function(s) { return s.date === _statsSelectedDate; }) : [];
+
+  if (sessions.length === 0) {
+    el.innerHTML +=
+      '<div style="padding:0 20px 16px 20px;">' +
+        '<div class="ls-card">' +
+          '<div class="ls-empty">이 날의 학습 기록이 없습니다</div>' +
+        '</div>' +
+      '</div>';
+    return;
+  }
+
   var last = sessions[sessions.length - 1];
   var newCount = (last.newSentenceIds || []).length;
   var reviewResults = last.reviewResults || [];
@@ -135,6 +145,17 @@ function renderStatsStudyCard() {
     else if (reviewResults[i].result === '△') triCount++;
     else xCount++;
   }
+
+  var reviewDetailHtml = '';
+  if (reviewResults.length > 0) {
+    reviewDetailHtml =
+      '<div style="display:flex;gap:12px;justify-content:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--light-gray);">' +
+        '<div style="text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--green);">' + oCount + '</div><div style="font-size:11px;color:var(--icon-inactive);">O</div></div>' +
+        '<div style="text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--yellow);">' + triCount + '</div><div style="font-size:11px;color:var(--icon-inactive);">△</div></div>' +
+        '<div style="text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--accent);">' + xCount + '</div><div style="font-size:11px;color:var(--icon-inactive);">X</div></div>' +
+      '</div>';
+  }
+
   el.innerHTML +=
     '<div style="padding:0 20px 16px 20px;">' +
       '<div class="ls-card">' +
@@ -144,8 +165,10 @@ function renderStatsStudyCard() {
         '</div>' +
         '<div class="ls-stats">' +
           '<div class="ls-stat"><div class="ls-stat-num">' + newCount + '<small>개</small></div><div class="ls-stat-label">신규</div></div>' +
+          '<div class="ls-stat"><div class="ls-stat-num">' + reviewResults.length + '<small>건</small></div><div class="ls-stat-label">복습</div></div>' +
           '<div class="ls-stat"><div class="ls-stat-num">' + (last.durationMin || '?') + '<small>분</small></div><div class="ls-stat-label">시간</div></div>' +
         '</div>' +
+        reviewDetailHtml +
       '</div>' +
     '</div>';
 }

@@ -2,6 +2,7 @@
 
 var _lessonItems = [];
 var _lessonIndex = 0;
+var _sessionNewCount = 0;
 
 function startLessonCards() {
   var lang = getCurrentLang();
@@ -78,6 +79,7 @@ function toggleLessonDetail(btn) {
 }
 
 function nextLessonCard() {
+  _sessionNewCount++;
   var card = document.querySelector('.lesson-card');
   if (card) {
     card.classList.add('card-swipe-out-left');
