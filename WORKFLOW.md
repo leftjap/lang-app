@@ -899,6 +899,41 @@ gorilla (운동앱)
 nametag-game (글쓰기+가계부)
 레포: https://github.com/leftjap/nametag-game
 참조 대상: GAS 동기화 구조 (doPost 라우터, getDatabaseFile, saveDatabase, loadDatabase), Google Sign-In 인증, swipe-back 제스처
+
+---
+
+## 20. 소스 참조 프로토콜
+
+### 배포 URL 및 소스 참조 경로
+
+| 항목 | 값 |
+|---|---|
+| 배포 URL | `https://leftjap.github.io/lang-app/` |
+| GitHub raw base | `https://raw.githubusercontent.com/leftjap/lang-app/main/` |
+
+### 파일 참조 우선순위
+
+1순위 — 사용자가 업로드한 파일 (가장 빠름, 최신 보장)
+        push 안 한 로컬 변경분이 있을 수 있으므로 항상 업로드 파일 우선
+2순위 — AI가 GitHub raw URL에서 직접 크롤링
+        사용자에게 추가 업로드를 요청하기 전에 반드시 먼저 시도
+3순위 — 사용자에게 추가 업로드 요청 (1, 2 모두 불가능할 때만)
+
+### 크기 제한 및 크롤링 제외 파일
+
+크롤러는 큰 파일(~1,000줄 이상)을 잘라서 반환할 수 있다.
+잘린 파일을 기반으로 작업지시서를 작성하면 안 된다.
+파일이 잘렸다고 판단되면 사용자에게 업로드를 요청한다.
+판단 기준: 파일 끝에 닫는 괄호/태그가 없거나, 상세 맵에 있는 함수가 보이지 않으면 잘린 것.
+
+크롤링 제외 파일 (항상 사용자 업로드를 요청):
+- (현재 없음 — 모든 파일 크롤링 가능)
+
+### 크롤링 제외 파일 자동 등록 규칙
+
+AI가 GitHub raw URL로 크롤링을 시도했으나 파일이 잘려서 사용자에게 업로드를 요청한 경우,
+해당 파일을 위 "크롤링 제외 파일" 목록에 추가하는 WORKFLOW.md 갱신 Step을 작업지시서에 포함한다.
+이후 같은 파일이 필요할 때는 크롤링을 시도하지 않고 바로 업로드를 요청한다.
 이 내용은 워크플로우 문서에 넣으면 됨?
 아니다. 이전 대화에서 내가 출력한 코드(index.html, style.css, js/*.js)는 실제 프로젝트 파일이다. WORKFLOW.md와는 별개로 각각의 파일로 생성해야 한다.
 
