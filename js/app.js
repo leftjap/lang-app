@@ -55,6 +55,101 @@ function initDefaultData(lang) {
   saveLangData(lang, defaultData);
 }
 
+function injectTestData() {
+  var t = today();
+
+  // English
+  var en = getLangData('en');
+  if (en && !en._testInjected) {
+    en._testInjected = true;
+    en.meta.lastSession = addDays(t, -1);
+    en.meta.totalDays = 5;
+    en.meta.totalMinutes = 48;
+    en.meta.currentStreak = 3;
+    en.meta.longestStreak = 5;
+    en.stats.totalSentences = 8;
+    en.stats.reviewPending = 4;
+
+    en.reviewQueue = [
+      { id:'E-T1', sentence:"How's it going?", keyExpression:"How's it going", category:'A', learnedDate:addDays(t,-5), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T2', sentence:"I'll get back to you", keyExpression:"get back to you", category:'A', learnedDate:addDays(t,-3), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'E-T3', sentence:"That makes sense", keyExpression:"makes sense", category:'A', learnedDate:addDays(t,-7), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'E-T4', sentence:"Let me think about it", keyExpression:"think about it", category:'A', learnedDate:addDays(t,-2), currentInterval:3, nextReview:addDays(t,1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T5', sentence:"I didn't catch that", keyExpression:"didn't catch", category:'A', learnedDate:addDays(t,-10), currentInterval:7, nextReview:addDays(t,-3), consecutivePasses:1, lastResult:'△' }
+    ];
+
+    en.todayLessons[t] = {
+      day:6, lang:'en', reviewIds:['E-T1','E-T2','E-T3','E-T5'],
+      newItems:[
+        { id:'E-T6', sentence:"I'm running late", meaning:'늦을 것 같아', keyExpression:'running late', category:'A', explanation:{ whenToUse:'약속에 늦을 때', grammar:'be + ~ing', pronPoints:'running의 nn 연음' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent("I'm running late")+'&voice=en-US' },
+        { id:'E-T7', sentence:'Could you do me a favor?', meaning:'부탁 하나 해줄 수 있을까?', keyExpression:'do me a favor', category:'A', explanation:{ whenToUse:'정중하게 부탁할 때', grammar:'Could you + 동사원형', pronPoints:'Could you가 연음됨' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent('Could you do me a favor?')+'&voice=en-US' },
+        { id:'E-T8', sentence:"It's no big deal", meaning:'별거 아니야', keyExpression:'no big deal', category:'A', explanation:{ whenToUse:'미안해할 때 괜찮다고 할 때', grammar:"It's + no + 명사", pronPoints:'deal의 발음' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent("It's no big deal")+'&voice=en-US' }
+      ],
+      practiceIds:['E-T1','E-T6']
+    };
+
+    en.sessionLogs = [
+      { day:4, date:addDays(t,-3), category:'A', durationMin:12, newSentenceIds:['E-T1','E-T2'], reviewResults:[], dictation:0, writing:0, voice:0, aiNotes:'' },
+      { day:5, date:addDays(t,-1), category:'A', durationMin:15, newSentenceIds:['E-T4','E-T5'], reviewResults:[{id:'E-T1',result:'O'},{id:'E-T2',result:'X'},{id:'E-T3',result:'△'}], dictation:0, writing:0, voice:0, aiNotes:'' }
+    ];
+
+    var es = {};
+    es[addDays(t,-3)] = { utterances:18, practiceSeconds:420, sentences:2 };
+    es[addDays(t,-1)] = { utterances:25, practiceSeconds:600, sentences:3 };
+    es[addDays(t,-15)] = { utterances:22, practiceSeconds:500, sentences:3 };
+    es[addDays(t,-20)] = { utterances:15, practiceSeconds:350, sentences:2 };
+    es[addDays(t,-32)] = { utterances:30, practiceSeconds:700, sentences:4 };
+    en.dailyPracticeStats = es;
+    en.prRecords = { daily:{ best:30, bestDate:addDays(t,-32) }, sentences:{} };
+    saveLangData('en', en);
+  }
+
+  // Japanese
+  var ja = getLangData('ja');
+  if (ja && !ja._testInjected) {
+    ja._testInjected = true;
+    ja.meta.lastSession = addDays(t, -2);
+    ja.meta.totalDays = 4;
+    ja.meta.totalMinutes = 35;
+    ja.meta.currentStreak = 2;
+    ja.meta.longestStreak = 4;
+    ja.stats.totalSentences = 7;
+    ja.stats.reviewPending = 3;
+
+    ja.reviewQueue = [
+      { id:'J-T1', sentence:'ちょっと待って', reading:'ちょっとまって', keyExpression:'待って', category:'A', learnedDate:addDays(t,-4), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'J-T2', sentence:'大丈夫ですか', reading:'だいじょうぶですか', keyExpression:'大丈夫', category:'A', learnedDate:addDays(t,-2), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'J-T3', sentence:'お疲れ様です', reading:'おつかれさまです', keyExpression:'お疲れ様', category:'A', learnedDate:addDays(t,-8), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'J-T4', sentence:'気をつけて', reading:'きをつけて', keyExpression:'気をつけて', category:'A', learnedDate:addDays(t,-3), currentInterval:3, nextReview:addDays(t,2), consecutivePasses:1, lastResult:'O' }
+    ];
+
+    ja.todayLessons[t] = {
+      day:5, lang:'ja', reviewIds:['J-T1','J-T2','J-T3'],
+      newItems:[
+        { id:'J-T5', sentence:'よろしくお願いします', reading:'よろしくおねがいします', meaning:'잘 부탁드립니다', keyExpression:'お願いします', category:'A', explanation:{ whenToUse:'처음 만났을 때, 부탁할 때', grammar:'よろしく + お願い + します', pronPoints:'お를 확실히' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent('よろしくお願いします')+'&voice=ja-JP', kanji:[{char:'願',onyomi:'ガン',kunyomi:'ねが.う',korean:'원'}] },
+        { id:'J-T6', sentence:'なるほど', reading:'なるほど', meaning:'그렇구나, 과연', keyExpression:'なるほど', category:'A', explanation:{ whenToUse:'납득했을 때', grammar:'감탄사. 단독 사용', pronPoints:'る를 탄설음으로' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent('なるほど')+'&voice=ja-JP' },
+        { id:'J-T7', sentence:'しょうがない', reading:'しょうがない', meaning:'어쩔 수 없다', keyExpression:'しょうがない', category:'A', explanation:{ whenToUse:'체념하거나 받아들일 때', grammar:'仕様がない의 구어체', pronPoints:'しょう의 장음을 확실히' }, audioUrl:TTS_BASE+'?text='+encodeURIComponent('しょうがない')+'&voice=ja-JP' }
+      ],
+      practiceIds:['J-T1','J-T5']
+    };
+
+    ja.sessionLogs = [
+      { day:3, date:addDays(t,-4), category:'A', durationMin:10, newSentenceIds:['J-T1','J-T2'], reviewResults:[], dictation:0, writing:0, voice:0, aiNotes:'' },
+      { day:4, date:addDays(t,-2), category:'A', durationMin:14, newSentenceIds:['J-T3','J-T4'], reviewResults:[{id:'J-T1',result:'O'},{id:'J-T2',result:'△'}], dictation:0, writing:0, voice:0, aiNotes:'' }
+    ];
+
+    var js = {};
+    js[addDays(t,-4)] = { utterances:15, practiceSeconds:360, sentences:2 };
+    js[addDays(t,-2)] = { utterances:20, practiceSeconds:480, sentences:3 };
+    js[addDays(t,-18)] = { utterances:18, practiceSeconds:400, sentences:2 };
+    js[addDays(t,-25)] = { utterances:10, practiceSeconds:240, sentences:1 };
+    js[addDays(t,-35)] = { utterances:28, practiceSeconds:650, sentences:3 };
+    ja.dailyPracticeStats = js;
+    ja.prRecords = { daily:{ best:28, bestDate:addDays(t,-35) }, sentences:{} };
+    saveLangData('ja', ja);
+  }
+}
+
 function init() {
   initDefaultData('en');
   initDefaultData('ja');
@@ -63,6 +158,7 @@ function init() {
   showScreen('home');
   hideLoadingScreen();
   loadBothLangs(function() {
+    injectTestData();
     renderHome();
   });
 }
