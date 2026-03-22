@@ -60,7 +60,7 @@ function injectTestData() {
 
   // English
   var en = getLangData('en');
-  if (en && !en._testInjected) {
+  if (en && (!en._testInjected || !en.reviewQueue || en.reviewQueue.length === 0)) {
     en._testInjected = true;
     en.meta.lastSession = addDays(t, -1);
     en.meta.totalDays = 5;
@@ -106,7 +106,7 @@ function injectTestData() {
 
   // Japanese
   var ja = getLangData('ja');
-  if (ja && !ja._testInjected) {
+  if (ja && (!ja._testInjected || !ja.reviewQueue || ja.reviewQueue.length === 0)) {
     ja._testInjected = true;
     ja.meta.lastSession = addDays(t, -2);
     ja.meta.totalDays = 4;
