@@ -159,6 +159,7 @@ function init() {
   var lang = getCurrentLang();
   switchLang(lang);
   showScreen('home');
+  renderHome();
   hideLoadingScreen();
   loadBothLangs(function() {
     renderHome();
