@@ -44,7 +44,7 @@
 | 영작 반복 오류 | `writingErrors` | 미니레슨 트리거 |
 | 연음/축약 상태 | `contractionMap` + `linkingRules` | |
 
-**데이터 파일:** `C:\Users\leftj\Documents\어학\english-data.json`
+**데이터 파일:** Google Drive (GAS 경유) — Claude는 GAS doGet URL로 직접 읽는다
 
 ### 참조 영역 (학습 중 필요할 때만 참조)
 | 섹션 | 내용 |
@@ -305,7 +305,7 @@ AI는 5번(학습 카테고리)의 현재 진행 카테고리에서 새 문장 5
 
 **구문 해설:** [문장 구조, 어순, 전치사 선택 이유 등. "문법 용어"보다 "왜 이렇게 말하는지"에 초점]
 
-**원어민 발음:** [실제 발음 — 연음, 축약, 강세 위치. 한글 발음 표기 포함]
+**원어민 발음:** [실제 발음 — 연음, 축약, 강세 위치. 한글 발음 표기 포함. IPA 기호(/…/, ‿ 등)는 사용하지 않는다. 한글로만 표기한다. 예: "How's it → '하우짓' (s와 i 연음)"]
 <audio controls src="http://localhost:7070/tts?text=[영어 문장 그대로]&voice=en-US"></audio>
 
 **비슷한 표현:** [같은 상황에서 쓸 수 있는 다른 표현 1~2개 + 뉘앙스 차이]
@@ -848,7 +848,7 @@ writingExercises: 3
 
 **english-data.json 갱신 시점:** 매 학습 세션 종료 시. §15의 작업지시서 형식을 따른다.
 
-**데이터 파일 경로:** `C:\Users\leftj\Documents\어학\english-data.json`
+**데이터 파일 경로:** Google Drive (GAS 경유)
 
 **영어 학습과의 관계:** JAPANESE.md / japanese-data.json과 독립적으로 운영한다. 양쪽 학습을 같은 날 해도 각 JSON은 별도로 업데이트한다. 다만 §14의 방법론 점검 시 양쪽의 학습 부담이 과하지 않은지 AI가 총량을 확인한다.
 ```

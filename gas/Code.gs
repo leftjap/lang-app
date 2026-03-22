@@ -69,6 +69,21 @@ function doPost(e) {
 }
 
 function doGet(e) {
+  var params = e ? e.parameter : {};
+  var action = params.action || '';
+
+  if (action === 'load_lang_db') {
+    var config = getUserConfig(null, params.token);
+    if (!config) {
+      return _jsonResponse({ status: 'error', message: 'Unauthorized' });
+    }
+    var lang = params.lang;
+    if (!lang) {
+      return _jsonResponse({ status: 'error', message: 'Missing lang parameter' });
+    }
+    return _jsonResponse(loadLangDb(lang, config));
+  }
+
   return _jsonResponse({ status: 'ok', message: 'lang-app GAS is running' });
 }
 

@@ -198,6 +198,8 @@ C:\dev\lang-app\
 | js/app.js | `C:\dev\lang-app\js\app.js` |
 | gas/Code.gs | `C:\dev\lang-app\gas\Code.gs` |
 | AGENTS.md | `C:\dev\lang-app\AGENTS.md` |
+| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` |
+| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` |
 
 **규칙:**
 - `파일: style.css` ❌ → `파일: C:\dev\lang-app\style.css` ✅
@@ -304,17 +306,17 @@ git push origin main
 
 ---
 
-## 5. 절대 건드리지 않는 파일
+## 5. 보호 파일 규칙
 
-- `인수인계서.md` — 기획 문서. 동결. 참고용.
-- `ENGLISH.md` — 영어 학습 방법론. Claude 세션에서만 수정. 웹앱 작업지시서에서 수정하지 않음.
-- `JAPANESE.md` — 일본어 학습 방법론. Claude 세션에서만 수정. 웹앱 작업지시서에서 수정하지 않음.
+- `인수인계서.md` — 기획 문서. 동결. 어떤 작업지시서에서도 수정하지 않음.
+- `docs/ENGLISH.md` — 영어 학습 방법론. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
+- `docs/JAPANESE.md` — 일본어 학습 방법론. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
 
 ---
 
 ## 6. 파일 구조
 
-lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 └── gas/ └── Code.gs — 어학앱 전용 GAS 서버 (Phase 1~2에서 구현)
+lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 ├── docs/ │ ├── ENGLISH.md — 영어 학습 방법론 (Claude 세션 참조) │ └── JAPANESE.md — 일본어 학습 방법론 (Claude 세션 참조) └── gas/ └── Code.gs — 어학앱 전용 GAS 서버 (Phase 1~2에서 구현)
 
 
 ### 학습 데이터 파일 (웹앱 외부 — Google Drive에서 관리)
@@ -324,12 +326,19 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 | english-data.json | Google Drive (GAS 경유) | 영어 학습 상태 데이터 |
 | japanese-data.json | Google Drive (GAS 경유) | 일본어 학습 상태 데이터 |
 
-### 학습 방법론 문서 (웹앱과 독립 — Claude 세션에서 관리)
+### 학습 방법론 문서
 
-| 파일 | 경로 | 용도 |
+| 파일 | 작업지시서 표기 | GitHub raw URL | 용도 |
+|---|---|---|---|
+| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH.md` | 영어 학습 방법론 |
+| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE.md` | 일본어 학습 방법론 |
+
+### 학습 데이터 (Google Drive — GAS 경유)
+
+| 파일 | GAS doGet URL | 용도 |
 |---|---|---|
-| ENGLISH.md | `C:\Users\leftj\Documents\어학\` | 영어 학습 방법론 (웹앱에서 수정 안 함) |
-| JAPANESE.md | `C:\Users\leftj\Documents\어학\` | 일본어 학습 방법론 (웹앱에서 수정 안 함) |
+| english-data.json | `https://script.google.com/macros/s/AKfycbwWIHicU2DJzK_Cf_4S5gvXSp4lvvAjOZOmx9ibhUM-KxzvEP3h8dNKdDCTFA9ppIRD/exec?action=load_lang_db&lang=en&token=lang2026` | 영어 학습 상태 데이터 |
+| japanese-data.json | `https://script.google.com/macros/s/AKfycbwWIHicU2DJzK_Cf_4S5gvXSp4lvvAjOZOmx9ibhUM-KxzvEP3h8dNKdDCTFA9ppIRD/exec?action=load_lang_db&lang=ja&token=lang2026` | 일본어 학습 상태 데이터 |
 
 ---
 
@@ -548,7 +557,7 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 
 **라우터:**
 - `doPost(e)` — action 분기 (load_lang_db, save_lang_db, save_lang_field)
-- `doGet(e)` — 상태 확인용
+- `doGet(e)` — 상태 확인 + 데이터 로드 (?action=load_lang_db&lang=xx&token=xx)
 
 **데이터 접근:**
 - `getRootFolder(config)` — Google Drive 루트폴더 (`lang-app`)
