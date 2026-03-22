@@ -160,10 +160,20 @@ function init() {
   switchLang(lang);
   showScreen('home');
   renderHome();
-  hideLoadingScreen();
+
+  var loadingDismissed = false;
+  function dismissLoading() {
+    if (loadingDismissed) return;
+    loadingDismissed = true;
+    hideLoadingScreen();
+  }
+
+  setTimeout(dismissLoading, 3000);
+
   loadBothLangs(function() {
     injectTestData();
     renderHome();
+    dismissLoading();
   });
 }
 
