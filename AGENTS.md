@@ -316,7 +316,7 @@ git push origin main
 
 ## 6. 파일 구조
 
-lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 ├── docs/ │ ├── ENGLISH.md — 영어 학습 방법론 (Claude 세션 참조) │ └── JAPANESE.md — 일본어 학습 방법론 (Claude 세션 참조) └── gas/ └── Code.gs — 어학앱 전용 GAS 서버 (Phase 1~2에서 구현)
+lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 ├── docs/ │ ├── ENGLISH.md — 영어 학습 방법론 본문 (Claude 매 세션 읽기) │ ├── ENGLISH-ref.md — 영어 참조 (연음맵, 영작패턴, 작업지시서 문법) │ ├── JAPANESE.md — 일본어 학습 방법론 본문 (Claude 매 세션 읽기) │ └── JAPANESE-ref.md — 일본어 참조 (발음맵, 한자맵, 작업지시서 문법) └── gas/ └── Code.gs — 어학앱 전용 GAS 서버 (Phase 1~2에서 구현)
 
 
 ### 학습 데이터 파일 (웹앱 외부 — Google Drive에서 관리)
@@ -330,8 +330,10 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 
 | 파일 | 작업지시서 표기 | GitHub raw URL | 용도 |
 |---|---|---|---|
-| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH.md` | 영어 학습 방법론 |
-| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE.md` | 일본어 학습 방법론 |
+| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH.md` | 영어 학습 방법론 본문 |
+| docs/ENGLISH-ref.md | `C:\dev\lang-app\docs\ENGLISH-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH-ref.md` | 영어 참조 |
+| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE.md` | 일본어 학습 방법론 본문 |
+| docs/JAPANESE-ref.md | `C:\dev\lang-app\docs\JAPANESE-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE-ref.md` | 일본어 참조 |
 
 ### 학습 데이터 (Google Drive — GAS 경유)
 
