@@ -160,20 +160,23 @@ function init() {
   switchLang(lang);
 
   var loadingDismissed = false;
-  var serverDone = false;
+  var readyTime = Date.now();
 
   function dismissLoading() {
     if (loadingDismissed) return;
     loadingDismissed = true;
-    showScreen('home');
-    hideLoadingScreen();
+    var elapsed = Date.now() - readyTime;
+    var minDelay = Math.max(0, 1000 - elapsed);
+    setTimeout(function() {
+      showScreen('home');
+      hideLoadingScreen();
+    }, minDelay);
   }
 
   setTimeout(dismissLoading, 3000);
 
   loadBothLangs(function() {
     injectTestData();
-    serverDone = true;
     if (loadingDismissed) {
       renderHome();
     } else {
