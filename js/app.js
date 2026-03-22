@@ -162,6 +162,7 @@ function init() {
   renderHome();
   hideLoadingScreen();
   loadBothLangs(function() {
+    injectTestData();
     renderHome();
   });
 }
