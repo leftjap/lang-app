@@ -60,8 +60,7 @@ function injectTestData() {
 
   // English
   var en = getLangData('en');
-  var enNeedsDummy = !en.meta || !en.meta.lastSession || !en.todayLessons || Object.keys(en.todayLessons).length === 0;
-  if (en && enNeedsDummy) {
+  if (en) {
     en._testInjected = true;
     en.meta.lastSession = addDays(t, -1);
     en.meta.totalDays = 5;
@@ -107,8 +106,7 @@ function injectTestData() {
 
   // Japanese
   var ja = getLangData('ja');
-  var jaNeedsDummy = !ja.meta || !ja.meta.lastSession || !ja.todayLessons || Object.keys(ja.todayLessons).length === 0;
-  if (ja && jaNeedsDummy) {
+  if (ja) {
     ja._testInjected = true;
     ja.meta.lastSession = addDays(t, -2);
     ja.meta.totalDays = 4;
@@ -153,6 +151,10 @@ function injectTestData() {
 }
 
 function init() {
+  // 더미 데이터를 확실히 주입하기 위해 기존 데이터 제거
+  localStorage.removeItem(K.enData);
+  localStorage.removeItem(K.jaData);
+
   initDefaultData('en');
   initDefaultData('ja');
   var lang = getCurrentLang();
