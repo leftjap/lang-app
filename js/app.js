@@ -176,6 +176,10 @@ function init() {
   setTimeout(dismissLoading, 3000);
 
   loadBothLangs(function() {
+    localStorage.removeItem(K.enData);
+    localStorage.removeItem(K.jaData);
+    initDefaultData('en');
+    initDefaultData('ja');
     injectTestData();
     if (loadingDismissed) {
       renderHome();
