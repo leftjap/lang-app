@@ -1388,3 +1388,105 @@ button {
   color: var(--gray);
   margin-top: 8px;
 }
+
+/* ═══ PC 레이아웃 — 가운데 정렬 + max-width ═══ */
+@media (min-width: 768px) {
+  body {
+    background: #E0E0E0;
+  }
+
+  #app {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--bg-gray);
+    box-shadow: 0 0 40px rgba(0,0,0,0.06);
+  }
+
+  /* 로딩 화면 */
+  .loading-screen {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* 학습 진행 헤더 */
+  .study-header {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* 하단 고정 버튼 */
+  .start-study {
+    max-width: calc(680px - 40px);
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  .start-study:active {
+    transform: translateX(-50%) scale(0.98);
+  }
+
+  /* 바텀시트 */
+  .bottom-sheet-overlay {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  .bottom-sheet {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* 액션시트 */
+  .action-sheet-overlay {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  .action-sheet {
+    max-width: calc(680px - 16px);
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    right: auto;
+  }
+
+  .action-sheet.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 확인 모달 */
+  .confirm-modal-overlay {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* 동기화 토스트 */
+  .sync-toast {
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+  }
+
+  .sync-toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 스와이프 뒤로가기 오버레이 */
+  .swipe-back-overlay {
+    max-width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+}
