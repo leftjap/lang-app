@@ -1466,6 +1466,7 @@ button {
   /* 로딩 화면 */
   .loading-screen {
     max-width: 680px;
+    width: 100%;
     left: 50%;
     transform: translateX(-50%);
     right: auto;

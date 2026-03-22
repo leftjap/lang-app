@@ -158,13 +158,14 @@ function init() {
   injectTestData();
   var lang = getCurrentLang();
   switchLang(lang);
-  showScreen('home');
-  renderHome();
 
   var loadingDismissed = false;
+  var serverDone = false;
+
   function dismissLoading() {
     if (loadingDismissed) return;
     loadingDismissed = true;
+    showScreen('home');
     hideLoadingScreen();
   }
 
@@ -172,8 +173,12 @@ function init() {
 
   loadBothLangs(function() {
     injectTestData();
-    renderHome();
-    dismissLoading();
+    serverDone = true;
+    if (loadingDismissed) {
+      renderHome();
+    } else {
+      dismissLoading();
+    }
   });
 }
 
