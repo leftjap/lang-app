@@ -151,19 +151,17 @@ function injectTestData() {
 }
 
 function init() {
-  // 더미 데이터를 확실히 주입하기 위해 기존 데이터 제거
   localStorage.removeItem(K.enData);
   localStorage.removeItem(K.jaData);
-
   initDefaultData('en');
   initDefaultData('ja');
   var lang = getCurrentLang();
   switchLang(lang);
   showScreen('home');
-  hideLoadingScreen();
   loadBothLangs(function() {
     injectTestData();
     renderHome();
+    hideLoadingScreen();
   });
 }
 
