@@ -1,4 +1,4 @@
-# WORKFLOW.md — 어학 학습 웹앱 작업 가이드
+﻿# AGENTS.md — 어학 학습 웹앱 작업 가이드
 
 ## 이 문서의 용도
 
@@ -98,7 +98,7 @@ Copy
 
 이 표는 AI가 GitHub raw URL에서 어떤 파일을 크롤링할지 결정하는 기준이다.
 사용자가 관련 파일을 직접 업로드하면 크롤링을 생략한다.
-사용자는 이 표를 몰라도 된다 — WORKFLOW.md와 수정 요청만 보내면 AI가 알아서 판단한다.
+사용자는 이 표를 몰라도 된다 — AGENTS.md와 수정 요청만 보내면 AI가 알아서 판단한다.
 
 | 작업 유형 | 업로드해야 할 파일 | 추가 확인 가능 |
 |---|---|---|
@@ -148,7 +148,7 @@ Step 1
 Step 2
 (이하 반복)
 
-WORKFLOW.md 갱신 (해당 시)
+AGENTS.md 갱신 (해당 시)
 7번 파일별 상세 맵: [추가/삭제/변경된 함수·상수 목록]
 8번 전역 상태 변수: [추가/삭제된 변수]
 9번 호출 체인: [변경된 흐름]
@@ -197,7 +197,7 @@ C:\dev\lang-app\
 | js/swipe.js | `C:\dev\lang-app\js\swipe.js` |
 | js/app.js | `C:\dev\lang-app\js\app.js` |
 | gas/Code.gs | `C:\dev\lang-app\gas\Code.gs` |
-| WORKFLOW.md | `C:\dev\lang-app\WORKFLOW.md` |
+| AGENTS.md | `C:\dev\lang-app\AGENTS.md` |
 
 **규칙:**
 - `파일: style.css` ❌ → `파일: C:\dev\lang-app\style.css` ✅
@@ -224,9 +224,9 @@ Haiku는 한 번에 하나의 명확한 작업을 처리할 때 가장 정확하
 ❌ "renderReviewCard() 함수에서 두 줄의 순서를 바꾼다" ❌ "현재 코드: html += A; html += B; → 변경 후: html += B; html += A;" ✅ "renderReviewCard() 함수를 아래 코드로 통째로 교체한다" (함수 전체 코드 제공)
 
 
-### WORKFLOW.md 갱신 규칙
+### AGENTS.md 갱신 규칙
 
-코드 변경으로 아래가 바뀌면 WORKFLOW.md 갱신 Step을 포함한다:
+코드 변경으로 아래가 바뀌면 AGENTS.md 갱신 Step을 포함한다:
 - 7번(파일별 상세 맵): 함수/상수 추가·삭제·이름 변경
 - 8번(전역 상태 변수): 추가·삭제
 - 9번(핵심 함수 호출 체인): 흐름 변경
@@ -240,7 +240,7 @@ Haiku는 한 번에 하나의 명확한 작업을 처리할 때 가장 정확하
 4. 호출 체인이 바뀌었는가? → 9번 갱신 Step 포함
 5. 새 파일이 추가되었는가? → 6번 갱신 Step 포함
 
-**위 5개를 확인하지 않고 작업지시서를 출력하지 않는다.** 하나라도 해당하면 WORKFLOW.md 갱신 Step을 반드시 포함한다. 모두 해당하지 않으면 갱신 Step을 생략한다.
+**위 5개를 확인하지 않고 작업지시서를 출력하지 않는다.** 하나라도 해당하면 AGENTS.md 갱신 Step을 반드시 포함한다. 모두 해당하지 않으면 갱신 Step을 생략한다.
 
 **갱신하지 않는 경우:**
 - CSS만 변경하고 구조 변경이 없는 경우
@@ -259,18 +259,18 @@ Haiku는 한 번에 하나의 명확한 작업을 처리할 때 가장 정확하
 
 **PowerShell 치환 예시:**
 ```powershell
-$file = 'C:\dev\lang-app\WORKFLOW.md'
+$file = 'C:\dev\lang-app\AGENTS.md'
 (Get-Content $file -Raw) -replace [regex]::Escape('찾을 문자열'), '바꿀 문자열' | Set-Content $file -NoNewline
 ```
 
 **주의:** `-replace`의 첫 번째 인자는 정규식이므로, 백슬래시가 포함된 경로를 치환할 때는 반드시 `[regex]::Escape()`로 감싸야 한다.
 
-### 작업 실패 시 WORKFLOW.md 처리
+### 작업 실패 시 AGENTS.md 처리
 
 사용자가 작업 결과가 실패/미해결이라고 보고하면, AI는 다음 작업지시서에서:
-1. 직전 작업지시서의 WORKFLOW.md 갱신 내용이 여전히 유효한지 확인한다.
-2. 유효하지 않으면 (함수가 결국 추가되지 않았거나, 이름이 바뀌었거나, 롤백되었으면) WORKFLOW.md를 되돌리거나 재수정하는 Step을 포함한다.
-3. 재수정 코드가 동일한 함수/변수를 유지하면 WORKFLOW.md는 건드리지 않는다.
+1. 직전 작업지시서의 AGENTS.md 갱신 내용이 여전히 유효한지 확인한다.
+2. 유효하지 않으면 (함수가 결국 추가되지 않았거나, 이름이 바뀌었거나, 롤백되었으면) AGENTS.md를 되돌리거나 재수정하는 Step을 포함한다.
+3. 재수정 코드가 동일한 함수/변수를 유지하면 AGENTS.md는 건드리지 않는다.
 
 ### 커밋 & 푸시 규칙
 
@@ -745,7 +745,7 @@ showScreen('stats') → renderStatsScreen() → renderStatsHeader() → renderSt
 
 | 문서 | 역할 | 수정 권한 | 상태 |
 |---|---|---|---|
-| WORKFLOW.md | AI 작업 가이드. 코드 구조 맵, 작업 규칙 | AI가 작업지시서 Step으로 수정 | 활성 — 항상 최신 유지 |
+| AGENTS.md | AI 작업 가이드. 코드 구조 맵, 작업 규칙 | AI가 작업지시서 Step으로 수정 | 활성 — 항상 최신 유지 |
 | 인수인계서.md | 초기 기획 의도 기록 | 수정하지 않음 | 동결 — 참고용 |
 | ENGLISH.md | 영어 학습 방법론 | Claude 세션에서만 수정 | 독립 — 웹앱 작업지시서와 무관 |
 | JAPANESE.md | 일본어 학습 방법론 | Claude 세션에서만 수정 | 독립 — 웹앱 작업지시서와 무관 |
@@ -755,7 +755,7 @@ showScreen('stats') → renderStatsScreen() → renderStatsHeader() → renderSt
 
 ### 동결 문서 규칙
 - `인수인계서.md`는 어떤 작업지시서에서도 수정 Step을 만들지 않는다.
-- 기획 의도를 확인해야 할 때는 인수인계서를 참조하되, 현재 코드와 다른 부분은 WORKFLOW.md와 실제 코드를 기준으로 판단한다.
+- 기획 의도를 확인해야 할 때는 인수인계서를 참조하되, 현재 코드와 다른 부분은 AGENTS.md와 실제 코드를 기준으로 판단한다.
 
 ---
 
@@ -765,7 +765,7 @@ showScreen('stats') → renderStatsScreen() → renderStatsHeader() → renderSt
 
 **1단계 — AI 자체 해결 (사용자 개입 0)**
 
-a. WORKFLOW.md 상세 맵(7번)에서 관련 함수/전역 변수를 특정한다.
+a. AGENTS.md 상세 맵(7번)에서 관련 함수/전역 변수를 특정한다.
 b. 업로드된 소스 또는 GitHub raw URL에서 해당 함수의 로직을 추적한다.
 c. 호출 체인(9번)과 전역 상태(8번)로 데이터 흐름을 시뮬레이션한다.
 d. 가설을 세우고, 그 가설이 맞다면 어떤 코드를 수정해야 하는지까지 특정한다.
@@ -980,30 +980,30 @@ nametag-game (글쓰기+가계부)
 ### 크롤링 제외 파일 자동 등록 규칙
 
 AI가 GitHub raw URL로 크롤링을 시도했으나 파일이 잘려서 사용자에게 업로드를 요청한 경우,
-해당 파일을 위 "크롤링 제외 파일" 목록에 추가하는 WORKFLOW.md 갱신 Step을 작업지시서에 포함한다.
+해당 파일을 위 "크롤링 제외 파일" 목록에 추가하는 AGENTS.md 갱신 Step을 작업지시서에 포함한다.
 이후 같은 파일이 필요할 때는 크롤링을 시도하지 않고 바로 업로드를 요청한다.
 이 내용은 워크플로우 문서에 넣으면 됨?
-아니다. 이전 대화에서 내가 출력한 코드(index.html, style.css, js/*.js)는 실제 프로젝트 파일이다. WORKFLOW.md와는 별개로 각각의 파일로 생성해야 한다.
+아니다. 이전 대화에서 내가 출력한 코드(index.html, style.css, js/*.js)는 실제 프로젝트 파일이다. AGENTS.md와는 별개로 각각의 파일로 생성해야 한다.
 
 정리하면 이렇다.
 
-WORKFLOW.md — 방금 작성한 문서. 프로젝트 루트에 하나만 놓는다. AI가 작업지시서 만들 때 참조하는 규칙서.
+AGENTS.md — 방금 작성한 문서. 프로젝트 루트에 하나만 놓는다. AI가 작업지시서 만들 때 참조하는 규칙서.
 
 코드 파일들 — 이전 대화에서 출력한 index.html, style.css, js/config.js, js/storage.js 등. 프로젝트 폴더에 파일 구조대로 생성해야 한다.
 
-이 두 가지를 한 번에 만드는 작업지시서를 출력할까? 하이쿠가 프로젝트 폴더 생성 → 코드 파일 전부 생성 → WORKFLOW.md 생성 → git init → 첫 커밋 → push까지 하도록.
+이 두 가지를 한 번에 만드는 작업지시서를 출력할까? 하이쿠가 프로젝트 폴더 생성 → 코드 파일 전부 생성 → AGENTS.md 생성 → git init → 첫 커밋 → push까지 하도록.
 
 아니 워크 플로우에 넣을 것만 따로
-방금 출력한 것이 WORKFLOW.md에 넣을 내용 전부다. 그대로 WORKFLOW.md 파일 하나로 저장하면 된다.
+방금 출력한 것이 AGENTS.md에 넣을 내용 전부다. 그대로 AGENTS.md 파일 하나로 저장하면 된다.
 
-코드 파일들은 별도 작업이고, WORKFLOW.md와 섞이는 내용은 없다.
+코드 파일들은 별도 작업이고, AGENTS.md와 섞이는 내용은 없다.
 
 19. 관련 프로젝트 참조
 
 이 내용까지 워크플로우에 넣으면 됨?
 맞다. 넣으면 된다.
 
-하이쿠가 gorilla나 nametag에서 패턴을 가져와야 할 때 레포 위치를 찾을 수 있어야 하고, 어떤 요소를 참조하는지 목록이 있어야 엉뚱한 걸 가져오지 않는다. gorilla WORKFLOW.md에도 관련 참조 정보가 들어있는 것과 같은 맥락이다.
+하이쿠가 gorilla나 nametag에서 패턴을 가져와야 할 때 레포 위치를 찾을 수 있어야 하고, 어떤 요소를 참조하는지 목록이 있어야 엉뚱한 걸 가져오지 않는다. gorilla AGENTS.md에도 관련 참조 정보가 들어있는 것과 같은 맥락이다.
 
 C:\dev\lang-app\
 
