@@ -155,13 +155,13 @@ function init() {
   localStorage.removeItem(K.jaData);
   initDefaultData('en');
   initDefaultData('ja');
+  injectTestData();
   var lang = getCurrentLang();
   switchLang(lang);
   showScreen('home');
+  hideLoadingScreen();
   loadBothLangs(function() {
-    injectTestData();
     renderHome();
-    hideLoadingScreen();
   });
 }
 
