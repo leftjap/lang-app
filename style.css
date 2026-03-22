@@ -95,9 +95,70 @@ button {
   pointer-events: none;
 }
 
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-scene {
+  position: relative;
+  height: 140px;
+  width: 120px;
+}
+
+.bounce-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -45px;
+  animation: bounce 0.45s ease-in infinite alternate;
+  z-index: 2;
+}
+
+.bounce-shadow {
+  width: 60px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 75%);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -30px;
+  animation: shadow-pulse 0.45s ease-in infinite alternate;
+  z-index: 1;
+}
+
 .loading-text {
   font-size: 14px;
   color: var(--gray);
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  font-weight: 600;
+  text-align: center;
+  animation: fade-text 1.4s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(40px); }
+}
+
+@keyframes shadow-pulse {
+  0% { transform: scale(0.5); opacity: 0.2; }
+  100% { transform: scale(1.1); opacity: 0.85; }
+}
+
+@keyframes fade-text {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
 }
 
 /* ── 학습 진행 헤더 ── */
