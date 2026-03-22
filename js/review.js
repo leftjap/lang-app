@@ -41,8 +41,6 @@ function revealAnswer() {
   if (_reviewRevealed) return;
   _reviewRevealed = true;
   var item = _reviewQueue[_reviewIndex];
-  var lang = getCurrentLang();
-  var ttsUrl = TTS_BASE + '?text=' + encodeURIComponent(item.sentence) + '&voice=' + LANG_CONFIG[lang].ttsVoice;
   var card = document.getElementById('currentCard');
   if (!card) return;
   card.innerHTML =
@@ -50,7 +48,7 @@ function revealAnswer() {
       '<div class="review-answer-text">' + item.sentence + '</div>' +
       (item.reading ? '<div class="review-answer-sub">' + item.reading + '</div>' : '') +
       '<div class="review-tts-row">' +
-        '<button class="tts-btn" onclick="playTTS(\'' + escapeAttr(ttsUrl) + '\')">' +
+        '<button class="tts-btn" onclick="playTTS(\'' + escapeAttr(item.sentence) + '\')">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
         '</button>' +
         '<button class="mic-btn" onclick="openPronModal(\'' + escapeAttr(item.sentence) + '\')">' +
@@ -138,7 +136,12 @@ function escapeAttr(str) {
   return str.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function playTTS(url) {
-  var audio = new Audio(url);
-  audio.play().catch(function(e) { console.log('TTS error:', e); });
+function playTTS(textOrUrl, lang) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utter = new SpeechSynthesisUtterance(textOrUrl);
+    utter.lang = lang || (getCurrentLang() === 'ja' ? 'ja-JP' : 'en-US');
+    utter.rate = 0.9;
+    window.speechSynthesis.speak(utter);
+  }
 }
