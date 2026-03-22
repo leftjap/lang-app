@@ -71,11 +71,11 @@ function injectTestData() {
     en.stats.reviewPending = 4;
 
     en.reviewQueue = [
-      { id:'E-T1', sentence:"How's it going?", keyExpression:"How's it going", category:'A', learnedDate:addDays(t,-5), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
-      { id:'E-T2', sentence:"I'll get back to you", keyExpression:"get back to you", category:'A', learnedDate:addDays(t,-3), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
-      { id:'E-T3', sentence:"That makes sense", keyExpression:"makes sense", category:'A', learnedDate:addDays(t,-7), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
-      { id:'E-T4', sentence:"Let me think about it", keyExpression:"think about it", category:'A', learnedDate:addDays(t,-2), currentInterval:3, nextReview:addDays(t,1), consecutivePasses:1, lastResult:'O' },
-      { id:'E-T5', sentence:"I didn't catch that", keyExpression:"didn't catch", category:'A', learnedDate:addDays(t,-10), currentInterval:7, nextReview:addDays(t,-3), consecutivePasses:1, lastResult:'△' }
+      { id:'E-T1', sentence:"How's it going?", meaning:'잘 지내?', keyExpression:"How's it going", category:'A', learnedDate:addDays(t,-5), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T2', sentence:"I'll get back to you", meaning:'나중에 다시 연락할게', keyExpression:"get back to you", category:'A', learnedDate:addDays(t,-3), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'E-T3', sentence:"That makes sense", meaning:'그거 이해가 돼 / 맞는 말이야', keyExpression:"makes sense", category:'A', learnedDate:addDays(t,-7), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'E-T4', sentence:"Let me think about it", meaning:'생각 좀 해볼게', keyExpression:"think about it", category:'A', learnedDate:addDays(t,-2), currentInterval:3, nextReview:addDays(t,1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T5', sentence:"I didn't catch that", meaning:'못 알아들었어', keyExpression:"didn't catch", category:'A', learnedDate:addDays(t,-10), currentInterval:7, nextReview:addDays(t,-3), consecutivePasses:1, lastResult:'△' }
     ];
 
     en.todayLessons[t] = {
@@ -117,10 +117,10 @@ function injectTestData() {
     ja.stats.reviewPending = 3;
 
     ja.reviewQueue = [
-      { id:'J-T1', sentence:'ちょっと待って', reading:'ちょっとまって', keyExpression:'待って', category:'A', learnedDate:addDays(t,-4), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
-      { id:'J-T2', sentence:'大丈夫ですか', reading:'だいじょうぶですか', keyExpression:'大丈夫', category:'A', learnedDate:addDays(t,-2), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
-      { id:'J-T3', sentence:'お疲れ様です', reading:'おつかれさまです', keyExpression:'お疲れ様', category:'A', learnedDate:addDays(t,-8), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
-      { id:'J-T4', sentence:'気をつけて', reading:'きをつけて', keyExpression:'気をつけて', category:'A', learnedDate:addDays(t,-3), currentInterval:3, nextReview:addDays(t,2), consecutivePasses:1, lastResult:'O' }
+      { id:'J-T1', sentence:'ちょっと待って', reading:'ちょっとまって', meaning:'잠깐만', keyExpression:'待って', category:'A', learnedDate:addDays(t,-4), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'J-T2', sentence:'大丈夫ですか', reading:'だいじょうぶですか', meaning:'괜찮으세요?', keyExpression:'大丈夫', category:'A', learnedDate:addDays(t,-2), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'J-T3', sentence:'お疲れ様です', reading:'おつかれさまです', meaning:'수고하셨습니다', keyExpression:'お疲れ様', category:'A', learnedDate:addDays(t,-8), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'J-T4', sentence:'気をつけて', reading:'きをつけて', meaning:'조심해', keyExpression:'気をつけて', category:'A', learnedDate:addDays(t,-3), currentInterval:3, nextReview:addDays(t,2), consecutivePasses:1, lastResult:'O' }
     ];
 
     ja.todayLessons[t] = {

@@ -31,6 +31,9 @@ function renderReviewCard() {
 }
 
 function getReviewPrompt(item) {
+  if (item.meaning) {
+    return '"' + item.meaning + '"<br>를 영어로 말해보세요';
+  }
   return '"' + (item.keyExpression || item.sentence) + '"을(를) 떠올려보세요';
 }
 
