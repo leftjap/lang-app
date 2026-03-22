@@ -617,6 +617,41 @@ button {
   margin-bottom: 16px;
 }
 
+.review-answer-meaning {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.review-detail-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--light-gray);
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+}
+
+.review-detail-btn:active {
+  background: var(--border-gray);
+}
+
+.review-detail {
+  display: none;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--light-gray);
+  border-radius: 12px;
+}
+
+.review-detail.expanded {
+  display: block;
+}
+
 .review-tts-row {
   display: flex;
   align-items: center;

@@ -71,11 +71,11 @@ function injectTestData() {
     en.stats.reviewPending = 4;
 
     en.reviewQueue = [
-      { id:'E-T1', sentence:"How's it going?", meaning:'잘 지내?', keyExpression:"How's it going", category:'A', learnedDate:addDays(t,-5), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
-      { id:'E-T2', sentence:"I'll get back to you", meaning:'나중에 다시 연락할게', keyExpression:"get back to you", category:'A', learnedDate:addDays(t,-3), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
-      { id:'E-T3', sentence:"That makes sense", meaning:'그거 이해가 돼 / 맞는 말이야', keyExpression:"makes sense", category:'A', learnedDate:addDays(t,-7), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
-      { id:'E-T4', sentence:"Let me think about it", meaning:'생각 좀 해볼게', keyExpression:"think about it", category:'A', learnedDate:addDays(t,-2), currentInterval:3, nextReview:addDays(t,1), consecutivePasses:1, lastResult:'O' },
-      { id:'E-T5', sentence:"I didn't catch that", meaning:'못 알아들었어', keyExpression:"didn't catch", category:'A', learnedDate:addDays(t,-10), currentInterval:7, nextReview:addDays(t,-3), consecutivePasses:1, lastResult:'△' }
+      { id:'E-T1', sentence:"How's it going?", meaning:'잘 지내?', keyExpression:"How's it going", category:'A', explanation:{ whenToUse:'안부를 가볍게 물을 때. How are you?보다 캐주얼', grammar:"How is it going의 축약. it은 상황/삶 전반", pronPoints:"How's의 /haʊz/ 연음, going의 /ɡoʊɪŋ/", similar:"What's up? / How are you doing?" }, learnedDate:addDays(t,-5), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T2', sentence:"I'll get back to you", meaning:'나중에 다시 연락할게', keyExpression:"get back to you", category:'A', explanation:{ whenToUse:'바로 답하기 어려울 때, 확인 후 연락하겠다고 할 때', grammar:"I will + get back to + 사람. get back = 돌아오다/다시 연락하다", pronPoints:"I'll의 /aɪl/, get back의 /t/와 /b/ 연음", similar:"Let me check and get back to you / I'll let you know" }, learnedDate:addDays(t,-3), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'E-T3', sentence:"That makes sense", meaning:'그거 이해가 돼 / 맞는 말이야', keyExpression:"makes sense", category:'A', explanation:{ whenToUse:'상대방 설명이 논리적일 때, 이해했다고 할 때', grammar:"make sense = 이치에 맞다. That이 주어", pronPoints:"makes의 /s/와 sense의 /s/ 이어서 발음", similar:"I see / I get it / That figures" }, learnedDate:addDays(t,-7), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'E-T4', sentence:"Let me think about it", meaning:'생각 좀 해볼게', keyExpression:"think about it", category:'A', explanation:{ whenToUse:'즉답을 피하고 시간을 벌 때', grammar:"Let me + 동사원형. think about = ~에 대해 생각하다", pronPoints:"Let me의 /lɛtmi/ 연음, about의 /t/ 탈락 가능", similar:"Give me some time / I need to sleep on it" }, learnedDate:addDays(t,-2), currentInterval:3, nextReview:addDays(t,1), consecutivePasses:1, lastResult:'O' },
+      { id:'E-T5', sentence:"I didn't catch that", meaning:'못 알아들었어', keyExpression:"didn't catch", category:'A', explanation:{ whenToUse:'상대방 말을 못 들었거나 이해 못 했을 때', grammar:"catch = 잡다 → (말을) 알아듣다. didn't + 동사원형", pronPoints:"didn't의 /t/ 거의 묵음, catch의 /kætʃ/", similar:"Sorry, what was that? / Come again? / Pardon?" }, learnedDate:addDays(t,-10), currentInterval:7, nextReview:addDays(t,-3), consecutivePasses:1, lastResult:'△' }
     ];
 
     en.todayLessons[t] = {
@@ -117,10 +117,10 @@ function injectTestData() {
     ja.stats.reviewPending = 3;
 
     ja.reviewQueue = [
-      { id:'J-T1', sentence:'ちょっと待って', reading:'ちょっとまって', meaning:'잠깐만', keyExpression:'待って', category:'A', learnedDate:addDays(t,-4), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
-      { id:'J-T2', sentence:'大丈夫ですか', reading:'だいじょうぶですか', meaning:'괜찮으세요?', keyExpression:'大丈夫', category:'A', learnedDate:addDays(t,-2), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
-      { id:'J-T3', sentence:'お疲れ様です', reading:'おつかれさまです', meaning:'수고하셨습니다', keyExpression:'お疲れ様', category:'A', learnedDate:addDays(t,-8), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
-      { id:'J-T4', sentence:'気をつけて', reading:'きをつけて', meaning:'조심해', keyExpression:'気をつけて', category:'A', learnedDate:addDays(t,-3), currentInterval:3, nextReview:addDays(t,2), consecutivePasses:1, lastResult:'O' }
+      { id:'J-T1', sentence:'ちょっと待って', reading:'ちょっとまって', meaning:'잠깐만', keyExpression:'待って', category:'A', explanation:{ whenToUse:'상대를 잠깐 멈추게 할 때, 시간을 벌 때', grammar:'ちょっと(조금) + 待つ(기다리다)의 て형', pronPoints:'っと의 촉음(작은 つ) 확실히 끊기', similar:'ちょっと待ってください (정중) / 待って待って (급할 때)' }, learnedDate:addDays(t,-4), currentInterval:3, nextReview:addDays(t,-1), consecutivePasses:1, lastResult:'O' },
+      { id:'J-T2', sentence:'大丈夫ですか', reading:'だいじょうぶですか', meaning:'괜찮으세요?', keyExpression:'大丈夫', category:'A', explanation:{ whenToUse:'상대 상태를 걱정할 때, 확인할 때', grammar:'大丈夫(괜찮다) + です(정중) + か(의문)', pronPoints:'だい↗じょう↘ぶ — じょう의 장음 주의', similar:'大丈夫? (반말) / お大事に (몸조리 하세요)' }, learnedDate:addDays(t,-2), currentInterval:1, nextReview:t, consecutivePasses:0, lastResult:null },
+      { id:'J-T3', sentence:'お疲れ様です', reading:'おつかれさまです', meaning:'수고하셨습니다', keyExpression:'お疲れ様', category:'A', explanation:{ whenToUse:'퇴근 인사, 일 끝난 동료에게, 만남의 인사로도 사용', grammar:'お + 疲れ(피곤) + 様(님) + です. 상대의 노고를 치하', pronPoints:'おつかれ↗さま↘です — さま에 살짝 악센트', similar:'お疲れ (반말) / ご苦労様です (윗사람→아랫사람)' }, learnedDate:addDays(t,-8), currentInterval:7, nextReview:t, consecutivePasses:2, lastResult:'O' },
+      { id:'J-T4', sentence:'気をつけて', reading:'きをつけて', meaning:'조심해', keyExpression:'気をつけて', category:'A', explanation:{ whenToUse:'헤어질 때, 위험을 주의시킬 때', grammar:'気(기운/주의) + を + つける(붙이다)의 て형', pronPoints:'き↗を↘つけて — を는 /o/로 발음', similar:'気をつけてください (정중) / 気をつけてね (친근)' }, learnedDate:addDays(t,-3), currentInterval:3, nextReview:addDays(t,2), consecutivePasses:1, lastResult:'O' }
     ];
 
     ja.todayLessons[t] = {

@@ -43,10 +43,34 @@ function revealAnswer() {
   var item = _reviewQueue[_reviewIndex];
   var card = document.getElementById('currentCard');
   if (!card) return;
+
+  var subLines = '';
+  if (item.reading) {
+    subLines += '<div class="review-answer-sub">' + item.reading + '</div>';
+  }
+  if (item.meaning) {
+    subLines += '<div class="review-answer-meaning">' + item.meaning + '</div>';
+  }
+
+  var detailHtml = '';
+  if (item.explanation) {
+    var exp = item.explanation;
+    var sections = '';
+    if (exp.whenToUse) sections += buildDetailSection('언제 쓰나', exp.whenToUse);
+    if (exp.grammar) sections += buildDetailSection('문법 구조', exp.grammar);
+    if (exp.pronPoints) sections += buildDetailSection('발음 포인트', exp.pronPoints);
+    if (exp.similar) sections += buildDetailSection('유사 표현', exp.similar);
+    if (sections) {
+      detailHtml =
+        '<button class="review-detail-btn" onclick="toggleReviewDetail(this)">해설 보기</button>' +
+        '<div class="review-detail">' + sections + '</div>';
+    }
+  }
+
   card.innerHTML =
     '<div class="review-answer">' +
       '<div class="review-answer-text">' + item.sentence + '</div>' +
-      (item.reading ? '<div class="review-answer-sub">' + item.reading + '</div>' : '') +
+      subLines +
       '<div class="review-tts-row">' +
         '<button class="tts-btn" id="reviewTtsBtn">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
@@ -55,6 +79,7 @@ function revealAnswer() {
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
         '</button>' +
       '</div>' +
+      detailHtml +
       '<div class="review-judge">' +
         '<button class="judge-btn fail" onclick="judgeReview(\'X\')">X</button>' +
         '<button class="judge-btn partial" onclick="judgeReview(\'△\')">△</button>' +
@@ -137,6 +162,13 @@ function onReviewDone() {
 
 function escapeAttr(str) {
   return str.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function toggleReviewDetail(btn) {
+  var detail = btn.nextElementSibling;
+  if (!detail) return;
+  var expanded = detail.classList.toggle('expanded');
+  btn.textContent = expanded ? '해설 접기' : '해설 보기';
 }
 
 function playTTS(textOrUrl, lang) {

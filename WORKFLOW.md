@@ -459,7 +459,8 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 
 **유틸:**
 - `escapeAttr(str)` — HTML 속성 이스케이프
-- `playTTS(url)` — TTS 오디오 재생
+- `toggleReviewDetail(btn)` — 복습 해설 펼침/접기
+- `playTTS(textOrUrl, lang)` — 브라우저 speechSynthesis TTS 재생
 
 ---
 
@@ -612,7 +613,7 @@ showScreen('stats') → renderStatsScreen() → renderStatsHeader() → renderSt
 
 ### 영어 JSON (english-data.json) — 주요 필드
 
-{ meta: { language, version, lastSession, totalDays, totalMinutes, currentStreak, longestStreak, currentCategory }, stats: { totalSentences, reviewPending, reviewCompleted60d, recentSuccessRate, writingExercises, voiceSessions }, reviewQueue: [{ id, sentence, meaning, keyExpression, category, learnedDate, currentInterval, nextReview, consecutivePasses, lastResult }], sessionLogs: [{ day, date, category, durationMin, newSentenceIds, reviewResults, dictation, writing, voice, aiNotes }], categories: [{ id, name, status, startDate, endDate }], weaknesses: [{ id, area, detail, found, status }], strengths: [{ id, area, detail, found }], writingPatterns: [], writingErrors: [{ id, pattern, count, status }], contractionMap: [{ original, contraction, pronunciation, status }], linkingRules: [{ rule, example, sound, status }], dailyPracticeStats: { "YYYY-MM-DD": { utterances, practiceSeconds, sentences } }, prRecords: { daily: { best, bestDate }, sentences: { "id": { bestPronScore, bestDate } } }, pronHistory: [{ id, sentenceId, lang, timestamp, pronScore, accuracyScore, fluencyScore, completenessScore, prosodyScore, words, source }], todayLessons: { "YYYY-MM-DD": { day, lang, reviewIds, newItems, practiceIds } } }
+{ meta: { language, version, lastSession, totalDays, totalMinutes, currentStreak, longestStreak, currentCategory }, stats: { totalSentences, reviewPending, reviewCompleted60d, recentSuccessRate, writingExercises, voiceSessions }, reviewQueue: [{ id, sentence, meaning, keyExpression, category, explanation: { whenToUse, grammar, pronPoints, similar }, learnedDate, currentInterval, nextReview, consecutivePasses, lastResult }], sessionLogs: [{ day, date, category, durationMin, newSentenceIds, reviewResults, dictation, writing, voice, aiNotes }], categories: [{ id, name, status, startDate, endDate }], weaknesses: [{ id, area, detail, found, status }], strengths: [{ id, area, detail, found }], writingPatterns: [], writingErrors: [{ id, pattern, count, status }], contractionMap: [{ original, contraction, pronunciation, status }], linkingRules: [{ rule, example, sound, status }], dailyPracticeStats: { "YYYY-MM-DD": { utterances, practiceSeconds, sentences } }, prRecords: { daily: { best, bestDate }, sentences: { "id": { bestPronScore, bestDate } } }, pronHistory: [{ id, sentenceId, lang, timestamp, pronScore, accuracyScore, fluencyScore, completenessScore, prosodyScore, words, source }], todayLessons: { "YYYY-MM-DD": { day, lang, reviewIds, newItems, practiceIds } } }
 
 
 ### 일본어 JSON (japanese-data.json) — 영어와 다른 부분
