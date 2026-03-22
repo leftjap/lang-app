@@ -1,6 +1,7 @@
 /* ═══ config.js — 설정 상수 ═══ */
 
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbwWIHicU2DJzK_Cf_4S5gvXSp4lvvAjOZOmx9ibhUM-KxzvEP3h8dNKdDCTFA9ppIRD/exec';
+// var GAS_URL = 'https://script.google.com/macros/s/AKfycbwWIHicU2DJzK_Cf_4S5gvXSp4lvvAjOZOmx9ibhUM-KxzvEP3h8dNKdDCTFA9ppIRD/exec';
+var GAS_URL = '';
 var APP_TOKEN = 'lang2026';
 
 var LANG_CONFIG = {

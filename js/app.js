@@ -159,34 +159,10 @@ function init() {
   var lang = getCurrentLang();
   switchLang(lang);
 
-  var loadingDismissed = false;
-  var readyTime = Date.now();
-
-  function dismissLoading() {
-    if (loadingDismissed) return;
-    loadingDismissed = true;
-    var elapsed = Date.now() - readyTime;
-    var minDelay = Math.max(0, 1000 - elapsed);
-    setTimeout(function() {
-      showScreen('home');
-      hideLoadingScreen();
-    }, minDelay);
-  }
-
-  setTimeout(dismissLoading, 3000);
-
-  loadBothLangs(function() {
-    localStorage.removeItem(K.enData);
-    localStorage.removeItem(K.jaData);
-    initDefaultData('en');
-    initDefaultData('ja');
-    injectTestData();
-    if (loadingDismissed) {
-      renderHome();
-    } else {
-      dismissLoading();
-    }
-  });
+  setTimeout(function() {
+    showScreen('home');
+    hideLoadingScreen();
+  }, 1200);
 }
 
 function startStudy() {
