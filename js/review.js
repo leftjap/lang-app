@@ -164,6 +164,10 @@ function escapeAttr(str) {
   return str.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function escapeForInlineJs(str) {
+  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+}
+
 function toggleReviewDetail(btn) {
   var detail = btn.nextElementSibling;
   if (!detail) return;

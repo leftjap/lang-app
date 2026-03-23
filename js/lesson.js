@@ -24,7 +24,6 @@ function renderLessonCard() {
   }
   var item = _lessonItems[_lessonIndex];
   var lang = getCurrentLang();
-  var ttsUrl = TTS_BASE + '?text=' + encodeURIComponent(item.sentence) + '&voice=' + LANG_CONFIG[lang].ttsVoice;
   var counter = document.querySelector('.card-counter');
   if (counter) counter.textContent = '신규 ' + (_lessonIndex + 1) + ' / ' + _lessonItems.length;
 
@@ -45,16 +44,20 @@ function renderLessonCard() {
       (item.reading ? '<div class="lesson-reading">' + item.reading + '</div>' : '') +
       '<div class="lesson-meaning">' + (item.meaning || '') + '</div>' +
       '<div class="lesson-tts-row">' +
-        '<button class="tts-btn" onclick="playTTS(\'' + escapeAttr(ttsUrl) + '\')">' +
+        '<button class="tts-btn" id="lessonTtsBtn">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
         '</button>' +
-        '<button class="mic-btn" onclick="openPronModal(\'' + escapeAttr(item.sentence) + '\')">' +
+        '<button class="mic-btn" id="lessonMicBtn">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
         '</button>' +
       '</div>' +
       (detailHtml ? '<button class="lesson-expand-btn" onclick="toggleLessonDetail(this)">해설 보기</button><div class="lesson-detail">' + detailHtml + '</div>' : '') +
       '<button class="lesson-next-btn" onclick="nextLessonCard()">' + (_lessonIndex < _lessonItems.length - 1 ? '다음' : '완료') + '</button>' +
     '</div>';
+
+  var sentence = item.sentence;
+  document.getElementById('lessonTtsBtn').onclick = function() { playTTS(sentence); };
+  document.getElementById('lessonMicBtn').onclick = function() { openPronModal(sentence); };
 
   bindLessonSwipe();
 }
