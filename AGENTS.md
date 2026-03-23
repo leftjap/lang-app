@@ -198,8 +198,12 @@ C:\dev\lang-app\
 | js/app.js | `C:\dev\lang-app\js\app.js` |
 | gas/Code.js | `C:\dev\lang-app\gas\Code.js` |
 | AGENTS.md | `C:\dev\lang-app\AGENTS.md` |
-| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` |
-| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` |
+| docs/EN-core.md | `C:\dev\lang-app\docs\EN-core.md` |
+| docs/EN-method.md | `C:\dev\lang-app\docs\EN-method.md` |
+| docs/EN-ref.md | `C:\dev\lang-app\docs\EN-ref.md` |
+| docs/JA-core.md | `C:\dev\lang-app\docs\JA-core.md` |
+| docs/JA-method.md | `C:\dev\lang-app\docs\JA-method.md` |
+| docs/JA-ref.md | `C:\dev\lang-app\docs\JA-ref.md` |
 
 **규칙:**
 - `파일: style.css` ❌ → `파일: C:\dev\lang-app\style.css` ✅
@@ -309,14 +313,14 @@ git push origin main
 ## 5. 보호 파일 규칙
 
 - `인수인계서.md` — 기획 문서. 동결. 어떤 작업지시서에서도 수정하지 않음.
-- `docs/ENGLISH.md` — 영어 학습 방법론. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
-- `docs/JAPANESE.md` — 일본어 학습 방법론. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
+- `docs/EN-core.md`, `docs/EN-method.md`, `docs/EN-ref.md` — 영어 학습 문서. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
+- `docs/JA-core.md`, `docs/JA-method.md`, `docs/JA-ref.md` — 일본어 학습 문서. 웹앱 코드 작업지시서에서는 수정하지 않음. 학습 방법론 수정 작업지시서에서는 수정 가능.
 
 ---
 
 ## 6. 파일 구조
 
-lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 ├── docs/ │ ├── ENGLISH.md — 영어 학습 방법론 본문 (Claude 매 세션 읽기) │ ├── ENGLISH-ref.md — 영어 참조 (연음맵, 영작패턴, 작업지시서 문법) │ ├── JAPANESE.md — 일본어 학습 방법론 본문 (Claude 매 세션 읽기) │ └── JAPANESE-ref.md — 일본어 참조 (발음맵, 한자맵, 작업지시서 문법) └── gas/
+lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── style.css — 전체 스타일 (모바일 우선, gorilla CSS 변수 기반) ├── manifest.json — PWA 매니페스트 ├── js/ │ ├── config.js — GAS URL, Azure 설정, 언어별 설정, 복습 주기 상수 │ ├── storage.js — LocalStorage 읽기/쓰기, 날짜 유틸, 언어 데이터 접근 │ ├── sync.js — GAS 서버 동기화 (로드/세이브/필드 단위), 토스트 │ ├── calendar.js — 주간 캘린더 (gorilla에서 이식), 롱프레스/탭 통합 │ ├── ui.js — 화면 전환, 메인 화면, 요약, 언어 탭, 하단 버튼, 모달 │ ├── review.js — 복습 카드 스와이프, O/△/X 판정, reviewQueue 갱신 │ ├── lesson.js — 신규 학습 카드 스와이프, todayLesson 렌더, 해설 펼침 │ ├── progress.js — 발화량 프로그레스바, PR 비교 │ ├── practice.js — 발음 연습 바텀 모달, Azure Speech SDK (Phase 3) │ ├── stats.js — 기록 화면, 월간 캘린더, 월별 차트 │ ├── swipe.js — 카드 스와이프 컴포넌트 + iOS 스타일 뒤로가기 │ └── app.js — 초기화, 기본 데이터 생성, 학습 타이머 ├── docs/ │ ├── EN-core.md — 영어 세션 규칙 (행동 규칙 + 스키마, 매 세션 읽기) │ ├── EN-method.md — 영어 방법론 (역할 + 프로필 + 루틴, 첫 세션/점검 시) │ ├── EN-ref.md — 영어 참조 (연음맵, 영작패턴, 작업지시서 문법) │ ├── JA-core.md — 일본어 세션 규칙 (행동 규칙 + 스키마, 매 세션 읽기) │ ├── JA-method.md — 일본어 방법론 (역할 + 프로필 + 루틴, 첫 세션/점검 시) │ └── JA-ref.md — 일본어 참조 (발음맵, 한자맵, 작업지시서 문법) └── gas/
     └── Code.js         — 어학앱 전용 GAS 서버 (Phase 1~2에서 구현)
 
 
@@ -331,10 +335,12 @@ lang-app/ ├── index.html — DOM 구조, 화면 레이아웃 ├── sty
 
 | 파일 | 작업지시서 표기 | GitHub raw URL | 용도 |
 |---|---|---|---|
-| docs/ENGLISH.md | `C:\dev\lang-app\docs\ENGLISH.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH.md` | 영어 학습 방법론 본문 |
-| docs/ENGLISH-ref.md | `C:\dev\lang-app\docs\ENGLISH-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/ENGLISH-ref.md` | 영어 참조 |
-| docs/JAPANESE.md | `C:\dev\lang-app\docs\JAPANESE.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE.md` | 일본어 학습 방법론 본문 |
-| docs/JAPANESE-ref.md | `C:\dev\lang-app\docs\JAPANESE-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JAPANESE-ref.md` | 일본어 참조 |
+| docs/EN-core.md | `C:\dev\lang-app\docs\EN-core.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/EN-core.md` | 영어 세션 규칙 (매 세션) |
+| docs/EN-method.md | `C:\dev\lang-app\docs\EN-method.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/EN-method.md` | 영어 방법론 (첫 세션/점검) |
+| docs/EN-ref.md | `C:\dev\lang-app\docs\EN-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/EN-ref.md` | 영어 참조 |
+| docs/JA-core.md | `C:\dev\lang-app\docs\JA-core.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JA-core.md` | 일본어 세션 규칙 (매 세션) |
+| docs/JA-method.md | `C:\dev\lang-app\docs\JA-method.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JA-method.md` | 일본어 방법론 (첫 세션/점검) |
+| docs/JA-ref.md | `C:\dev\lang-app\docs\JA-ref.md` | `https://raw.githubusercontent.com/leftjap/lang-app/main/docs/JA-ref.md` | 일본어 참조 |
 
 ### 학습 데이터 (Google Drive — GAS 경유)
 
