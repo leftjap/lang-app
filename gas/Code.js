@@ -3,7 +3,7 @@
 // ═══ 사용자 설정 ═══
 var USER_CONFIG = {
   'leftjap@gmail.com': {
-    rootFolder: 'lang-app',
+    rootFolder: 'study',
     langFiles: {
       en: 'english-data.json',
       ja: 'japanese-data.json'

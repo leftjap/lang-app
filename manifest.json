@@ -1,8 +1,9 @@
 {
-  "name": "Lang",
-  "short_name": "Lang",
+  "name": "Study",
+  "short_name": "Study",
   "description": "어학 학습 앱",
-  "start_url": "/lang-app/",
+  "start_url": "/study/",
+  "scope": "/study/",
   "display": "standalone",
   "background_color": "#F5F5F5",
   "theme_color": "#F5F5F5",
