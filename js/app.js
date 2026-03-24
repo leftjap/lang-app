@@ -151,18 +151,20 @@ function injectTestData() {
 }
 
 function init() {
-  localStorage.removeItem(K.enData);
-  localStorage.removeItem(K.jaData);
   initDefaultData('en');
   initDefaultData('ja');
-  injectTestData();
+
   var lang = getCurrentLang();
   switchLang(lang);
 
-  setTimeout(function() {
-    showScreen('home');
-    hideLoadingScreen();
-  }, 1200);
+  // 로컬 데이터로 즉시 UI 표시
+  showScreen('home');
+  hideLoadingScreen();
+
+  // 백그라운드에서 서버 동기화 (SWR 패턴)
+  loadBothLangs(function() {
+    renderHome();
+  });
 }
 
 function startStudy() {
