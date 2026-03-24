@@ -703,6 +703,245 @@ button {
   50% { transform: scale(1.08); }
 }
 
+/* ── TTS 재생 바 ── */
+.tts-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--light-gray);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tts-bar:active {
+  transform: scale(0.98);
+  background: var(--border-gray);
+}
+
+.tts-bar.playing {
+  background: var(--dark);
+}
+
+.tts-bar-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--dark);
+  transition: background 0.2s, color 0.2s;
+}
+
+.tts-bar.playing .tts-bar-icon {
+  background: var(--white);
+  color: var(--dark);
+}
+
+.tts-bar-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.tts-bar.playing .tts-bar-label {
+  color: var(--white);
+}
+
+.tts-bar-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.tts-bar-wave .wave-bar {
+  width: 3px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--icon-inactive);
+  transition: background 0.2s;
+}
+
+.tts-bar.playing .tts-bar-wave .wave-bar {
+  background: rgba(255,255,255,0.6);
+  animation: ttsWave 0.6s ease-in-out infinite alternate;
+}
+
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(1) { animation-delay: 0s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(2) { animation-delay: 0.08s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(3) { animation-delay: 0.16s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(4) { animation-delay: 0.24s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(5) { animation-delay: 0.32s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(6) { animation-delay: 0.16s; }
+.tts-bar.playing .tts-bar-wave .wave-bar:nth-child(7) { animation-delay: 0.08s; }
+
+@keyframes ttsWave {
+  0% { height: 4px; }
+  100% { height: 20px; }
+}
+
+/* ── 녹음 바 ── */
+.rec-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--accent-bg);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.rec-bar:active {
+  transform: scale(0.98);
+}
+
+.rec-bar.recording {
+  background: var(--accent);
+}
+
+.rec-bar-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  transition: color 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.rec-bar.recording .rec-bar-icon {
+  color: var(--accent);
+  animation: recPulseIcon 1.2s ease-in-out infinite;
+}
+
+@keyframes recPulseIcon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.rec-bar-pulse {
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rec-bar.recording .rec-bar-pulse {
+  animation: recPulseRing 1.5s ease-out infinite;
+}
+
+@keyframes recPulseRing {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+.rec-bar-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: color 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.rec-bar.recording .rec-bar-label {
+  color: var(--white);
+}
+
+.rec-bar-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.rec-bar-wave .wave-bar {
+  width: 3px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0.3;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.rec-bar.recording .rec-bar-wave .wave-bar {
+  background: var(--white);
+  opacity: 0.7;
+  animation: recWave 0.5s ease-in-out infinite alternate;
+}
+
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(1) { animation-delay: 0s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(2) { animation-delay: 0.07s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(3) { animation-delay: 0.14s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(4) { animation-delay: 0.21s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(5) { animation-delay: 0.28s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(6) { animation-delay: 0.14s; }
+.rec-bar.recording .rec-bar-wave .wave-bar:nth-child(7) { animation-delay: 0.07s; }
+
+@keyframes recWave {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+.rec-bar-status {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+  opacity: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.rec-bar.recording .rec-bar-status {
+  opacity: 1;
+}
+
+/* ── 바 형태 TTS/녹음 행 ── */
+.audio-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
 /* 판정 버튼 */
 .review-judge {
   display: flex;

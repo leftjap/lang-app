@@ -37,27 +37,40 @@ function renderLessonCard() {
     if (exp.animeScene) detailHtml += buildDetailSection('애니 장면', exp.animeScene);
   }
 
+  var waveBars = '';
+  for (var w = 0; w < 7; w++) waveBars += '<span class="wave-bar"></span>';
+
   area.innerHTML =
     '<div class="lesson-card" id="currentLessonCard">' +
       '<div class="lesson-card-header">NEW</div>' +
       '<div class="lesson-sentence">' + item.sentence + '</div>' +
       (item.reading ? '<div class="lesson-reading">' + item.reading + '</div>' : '') +
       '<div class="lesson-meaning">' + (item.meaning || '') + '</div>' +
-      '<div class="lesson-tts-row">' +
-        '<button class="tts-btn" id="lessonTtsBtn">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
-        '</button>' +
-        '<button class="mic-btn" id="lessonMicBtn">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
-        '</button>' +
+      '<div class="audio-bars">' +
+        '<div class="tts-bar" id="lessonTtsBar" data-sentence="' + escapeAttr(item.sentence) + '">' +
+          '<div class="tts-bar-icon">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
+          '</div>' +
+          '<span class="tts-bar-label">발음 듣기</span>' +
+          '<div class="tts-bar-wave">' + waveBars + '</div>' +
+        '</div>' +
+        '<div class="rec-bar" id="lessonRecBar">' +
+          '<div class="rec-bar-pulse"></div>' +
+          '<div class="rec-bar-icon">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
+          '</div>' +
+          '<span class="rec-bar-label">따라 말하기</span>' +
+          '<div class="rec-bar-wave">' + waveBars + '</div>' +
+          '<span class="rec-bar-status">녹음 중</span>' +
+        '</div>' +
       '</div>' +
       (detailHtml ? '<button class="lesson-expand-btn" onclick="toggleLessonDetail(this)">해설 보기</button><div class="lesson-detail">' + detailHtml + '</div>' : '') +
       '<button class="lesson-next-btn" onclick="nextLessonCard()">' + (_lessonIndex < _lessonItems.length - 1 ? '다음' : '완료') + '</button>' +
     '</div>';
 
   var sentence = item.sentence;
-  document.getElementById('lessonTtsBtn').onclick = function() { playTTS(sentence); };
-  document.getElementById('lessonMicBtn').onclick = function() { openPronModal(sentence); };
+  document.getElementById('lessonTtsBar').onclick = function() { playTTS(sentence); };
+  document.getElementById('lessonRecBar').onclick = function() { openPronModal(sentence); };
 
   bindLessonSwipe();
 }

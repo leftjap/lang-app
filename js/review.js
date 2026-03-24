@@ -67,17 +67,30 @@ function revealAnswer() {
     }
   }
 
+  var waveBars = '';
+  for (var w = 0; w < 7; w++) waveBars += '<span class="wave-bar"></span>';
+
   card.innerHTML =
     '<div class="review-answer">' +
       '<div class="review-answer-text">' + item.sentence + '</div>' +
       subLines +
-      '<div class="review-tts-row">' +
-        '<button class="tts-btn" id="reviewTtsBtn">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
-        '</button>' +
-        '<button class="mic-btn" id="reviewMicBtn">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
-        '</button>' +
+      '<div class="audio-bars">' +
+        '<div class="tts-bar" id="reviewTtsBar" data-sentence="' + escapeAttr(item.sentence) + '">' +
+          '<div class="tts-bar-icon">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>' +
+          '</div>' +
+          '<span class="tts-bar-label">발음 듣기</span>' +
+          '<div class="tts-bar-wave">' + waveBars + '</div>' +
+        '</div>' +
+        '<div class="rec-bar" id="reviewRecBar">' +
+          '<div class="rec-bar-pulse"></div>' +
+          '<div class="rec-bar-icon">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>' +
+          '</div>' +
+          '<span class="rec-bar-label">따라 말하기</span>' +
+          '<div class="rec-bar-wave">' + waveBars + '</div>' +
+          '<span class="rec-bar-status">녹음 중</span>' +
+        '</div>' +
       '</div>' +
       detailHtml +
       '<div class="review-judge">' +
@@ -86,9 +99,10 @@ function revealAnswer() {
         '<button class="judge-btn pass" onclick="judgeReview(\'O\')">O</button>' +
       '</div>' +
     '</div>';
+
   var sentence = item.sentence;
-  document.getElementById('reviewTtsBtn').onclick = function() { playTTS(sentence); };
-  document.getElementById('reviewMicBtn').onclick = function() { openPronModal(sentence); };
+  document.getElementById('reviewTtsBar').onclick = function() { playTTS(sentence); };
+  document.getElementById('reviewRecBar').onclick = function() { openPronModal(sentence); };
 }
 
 function judgeReview(result) {
@@ -175,12 +189,43 @@ function toggleReviewDetail(btn) {
   btn.textContent = expanded ? '해설 접기' : '해설 보기';
 }
 
-function playTTS(textOrUrl, lang) {
-  if (window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    var utter = new SpeechSynthesisUtterance(textOrUrl);
-    utter.lang = lang || (getCurrentLang() === 'ja' ? 'ja-JP' : 'en-US');
-    utter.rate = 0.9;
-    window.speechSynthesis.speak(utter);
+function playTTS(text, lang) {
+  if (window._ttsAudio) {
+    window._ttsAudio.pause();
+    window._ttsAudio = null;
   }
+  var bars = document.querySelectorAll('.tts-bar');
+  bars.forEach(function(b) { b.classList.remove('playing'); });
+
+  var langCode = lang || (getCurrentLang() === 'ja' ? 'ja-JP' : 'en-US');
+  var url = TTS_BASE + '?text=' + encodeURIComponent(text) + '&voice=' + langCode;
+  var audio = new Audio(url);
+  window._ttsAudio = audio;
+
+  var currentBar = null;
+  bars.forEach(function(b) {
+    if (b.dataset.sentence === text) currentBar = b;
+  });
+
+  audio.onplay = function() {
+    if (currentBar) currentBar.classList.add('playing');
+  };
+  audio.onended = function() {
+    if (currentBar) currentBar.classList.remove('playing');
+    window._ttsAudio = null;
+  };
+  audio.onerror = function() {
+    if (currentBar) currentBar.classList.remove('playing');
+    window._ttsAudio = null;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      var utter = new SpeechSynthesisUtterance(text);
+      utter.lang = langCode;
+      utter.rate = 0.9;
+      window.speechSynthesis.speak(utter);
+    }
+  };
+  audio.play().catch(function() {
+    audio.onerror();
+  });
 }
