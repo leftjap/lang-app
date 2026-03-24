@@ -1,6 +1,5 @@
 /* ═══ Code.gs — 어학앱 GAS 서버 ═══ */
 
-// ═══ 사용자 설정 ═══
 var USER_CONFIG = {
   'leftjap@gmail.com': {
     rootFolder: 'study',
@@ -13,7 +12,6 @@ var USER_CONFIG = {
 
 var VALID_TOKENS = ['lang2026'];
 
-// ═══ 인증 ═══
 function getUserConfig(idToken, fallbackToken) {
   if (idToken) {
     try {
@@ -22,13 +20,9 @@ function getUserConfig(idToken, fallbackToken) {
         var decoded = Utilities.base64DecodeWebSafe(parts[1]);
         var payload = JSON.parse(Utilities.newBlob(decoded).getDataAsString());
         var email = payload.email;
-        if (email && USER_CONFIG[email]) {
-          return USER_CONFIG[email];
-        }
+        if (email && USER_CONFIG[email]) return USER_CONFIG[email];
       }
-    } catch (e) {
-      console.warn('idToken 파싱 실패:', e);
-    }
+    } catch (e) { console.warn('idToken parse fail:', e); }
   }
   if (fallbackToken && VALID_TOKENS.indexOf(fallbackToken) !== -1) {
     return USER_CONFIG['leftjap@gmail.com'];
@@ -36,30 +30,18 @@ function getUserConfig(idToken, fallbackToken) {
   return null;
 }
 
-// ═══ 메인 라우터 ═══
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents || '{}');
     console.log('doPost action: ' + data.action);
-
     var config = getUserConfig(data.idToken, data.token);
-    if (!config) {
-      return _jsonResponse({ status: 'error', message: 'Unauthorized' });
-    }
-
+    if (!config) return _jsonResponse({ status: 'error', message: 'Unauthorized' });
     var result;
     switch (data.action) {
-      case 'load_lang_db':
-        result = loadLangDb(data.lang, config);
-        break;
-      case 'save_lang_db':
-        result = saveLangDb(data.lang, data.data, config);
-        break;
-      case 'save_lang_field':
-        result = saveLangField(data.lang, data.field, data.operation, data.value, config);
-        break;
-      default:
-        result = { status: 'error', message: 'Unknown action: ' + data.action };
+      case 'load_lang_db': result = loadLangDb(data.lang, config); break;
+      case 'save_lang_db': result = saveLangDb(data.lang, data.data, config); break;
+      case 'save_lang_field': result = saveLangField(data.lang, data.field, data.operation, data.value, config); break;
+      default: result = { status: 'error', message: 'Unknown action: ' + data.action };
     }
     return _jsonResponse(result);
   } catch (err) {
@@ -69,21 +51,6 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  var params = e ? e.parameter : {};
-  var action = params.action || '';
-
-  if (action === 'load_lang_db') {
-    var config = getUserConfig(null, params.token);
-    if (!config) {
-      return _jsonResponse({ status: 'error', message: 'Unauthorized' });
-    }
-    var lang = params.lang;
-    if (!lang) {
-      return _jsonResponse({ status: 'error', message: 'Missing lang parameter' });
-    }
-    return _jsonResponse(loadLangDb(lang, config));
-  }
-
   return _jsonResponse({ status: 'ok', message: 'lang-app GAS is running' });
 }
 
@@ -92,7 +59,6 @@ function _jsonResponse(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ═══ 폴더 유틸 ═══
 function getOrCreateFolder(parentFolder, name) {
   var folders = parentFolder.getFoldersByName(name);
   if (folders.hasNext()) return folders.next();
@@ -103,7 +69,6 @@ function getRootFolder(config) {
   return getOrCreateFolder(DriveApp.getRootFolder(), config.rootFolder);
 }
 
-// ═══ 언어 데이터 파일 접근 ═══
 function getLangFile(lang, config) {
   var folder = getRootFolder(config);
   var fileName = config.langFiles[lang];
@@ -113,21 +78,18 @@ function getLangFile(lang, config) {
   return folder.createFile(fileName, '{}', MimeType.PLAIN_TEXT);
 }
 
-// ═══ load_lang_db ═══
 function loadLangDb(lang, config) {
   try {
     var file = getLangFile(lang, config);
     if (!file) return { status: 'error', message: 'Invalid lang: ' + lang };
     var content = file.getBlob().getDataAsString();
-    var data = JSON.parse(content || '{}');
-    return { status: 'ok', data: data };
+    return { status: 'ok', data: JSON.parse(content || '{}') };
   } catch (e) {
     console.error('loadLangDb error:', e);
     return { status: 'error', message: e.toString() };
   }
 }
 
-// ═══ save_lang_db ═══
 function saveLangDb(lang, data, config) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -144,7 +106,6 @@ function saveLangDb(lang, data, config) {
   }
 }
 
-// ═══ save_lang_field ═══
 function saveLangField(lang, field, operation, value, config) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -153,27 +114,20 @@ function saveLangField(lang, field, operation, value, config) {
     if (!file) { lock.releaseLock(); return { status: 'error', message: 'Invalid lang: ' + lang }; }
     var content = file.getBlob().getDataAsString();
     var data = JSON.parse(content || '{}');
-
     if (operation === 'append') {
       if (!Array.isArray(data[field])) data[field] = [];
-      if (Array.isArray(value)) {
-        for (var i = 0; i < value.length; i++) data[field].push(value[i]);
-      } else {
-        data[field].push(value);
-      }
+      if (Array.isArray(value)) { for (var i = 0; i < value.length; i++) data[field].push(value[i]); }
+      else { data[field].push(value); }
     } else if (operation === 'update') {
       data[field] = value;
     } else if (operation === 'merge') {
       if (typeof data[field] !== 'object' || data[field] === null) data[field] = {};
       var keys = Object.keys(value);
-      for (var k = 0; k < keys.length; k++) {
-        data[field][keys[k]] = value[keys[k]];
-      }
+      for (var k = 0; k < keys.length; k++) data[field][keys[k]] = value[keys[k]];
     } else {
       lock.releaseLock();
       return { status: 'error', message: 'Unknown operation: ' + operation };
     }
-
     file.setContent(JSON.stringify(data));
     return { status: 'ok' };
   } catch (e) {
