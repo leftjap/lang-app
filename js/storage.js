@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ storage.js — 로컬 스토리지 + 유틸 ═══ */
 
 var K = {

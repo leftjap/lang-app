@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ calendar.js — 주간 캘린더 ═══ */
 
 var _selectedWeekDate = today();

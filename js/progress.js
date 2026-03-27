@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ progress.js — 발화량 프로그레스바 ═══ */
 
 function renderProgressBar() {

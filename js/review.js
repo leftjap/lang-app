@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ review.js — 복습 카드 ═══ */
 
 var _reviewQueue = [];

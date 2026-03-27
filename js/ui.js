@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ ui.js — 메인 화면, 화면 전환 ═══ */
 
 var _bottomBtnState = 'start';

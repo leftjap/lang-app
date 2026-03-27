@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ practice.js — 발음 연습 (Phase 3에서 Azure 통합) ═══ */
 
 function openPronModal(sentence) {

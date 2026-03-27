@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ stats.js — 기록 화면 ═══ */
 
 var _statsYM = getYM(today());

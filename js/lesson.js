@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ lesson.js — 신규 학습 카드 ═══ */
 
 var _lessonItems = [];

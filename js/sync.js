@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ sync.js — GAS 동기화 (ID 기반 병합 + 재시도) ═══ */
 
 var _syncInProgress = false;

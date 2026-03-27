@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ app.js — 초기화, 학습 타이머 ═══ */
 
 var _studyStartTime = null;

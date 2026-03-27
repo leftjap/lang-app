@@ -1,3 +1,5 @@
+// ═══ PROJECT: study ═══
+
 /* ═══ Code.gs — 어학앱 GAS 서버 ═══ */
 
 var USER_CONFIG = {
