@@ -157,6 +157,14 @@ function init() {
   if (navigator.storage && navigator.storage.persist) {
     navigator.storage.persist().catch(function() {});
   }
+  // 빈 LS 보호: 학습 데이터 없으면 서버 복원 완료까지 save 차단
+  var _enData = getLangData('en');
+  var _jaData = getLangData('ja');
+  var _lsEmpty = (!_enData || !_enData.meta || !_enData.meta.lastSession) &&
+                 (!_jaData || !_jaData.meta || !_jaData.meta.lastSession);
+  if (_lsEmpty) {
+    window._blockSaveToServer = true;
+  }
   initDefaultData('en');
   initDefaultData('ja');
 
@@ -169,6 +177,8 @@ function init() {
 
   // 백그라운드에서 서버 동기화 (SWR 패턴)
   loadBothLangs(function() {
+    // 빈 LS 보호 해제: 서버 데이터 수신 완료
+    window._blockSaveToServer = false;
     renderHome();
   });
 }

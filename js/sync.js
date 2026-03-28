@@ -311,6 +311,12 @@ function saveToServer(lang, callback, silent) {
     if (callback) callback(false);
     return;
   }
+  // 빈 LS 보호: 서버 복원 전 업로드 차단
+  if (window._blockSaveToServer) {
+    console.log('saveToServer: 빈 LS 보호 — 서버 복원 전 업로드 차단');
+    if (callback) callback(false);
+    return;
+  }
   var data = getLangData(lang);
   if (!data) { if (callback) callback(false); return; }
   // 새 저장 요청 시 기존 재시도 취소
