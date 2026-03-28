@@ -71,6 +71,56 @@ function getRootFolder(config) {
   return getOrCreateFolder(DriveApp.getRootFolder(), config.rootFolder);
 }
 
+// ── 다세대 백업 (1일 1회, 7일분 보관, 언어별) ──
+function _backupLangIfNeeded(lang, config) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var cooldownKey = 'backup_date_' + lang;
+    var todayStr = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
+    var lastBackupDate = props.getProperty(cooldownKey) || '';
+
+    if (lastBackupDate === todayStr) return;
+
+    var folder = getRootFolder(config);
+    var file = getLangFile(lang, config);
+    if (!file) return;
+    var content = file.getBlob().getDataAsString();
+
+    if (!content || content === '{}') return;
+
+    var fileName = config.langFiles[lang];
+    var baseName = fileName.replace('.json', '');
+    var backupName = baseName + '_backup_' + todayStr + '.json';
+
+    var existingFiles = folder.getFilesByName(backupName);
+    if (existingFiles.hasNext()) {
+      existingFiles.next().setContent(content);
+    } else {
+      folder.createFile(backupName, content, MimeType.PLAIN_TEXT);
+    }
+
+    var cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - 7);
+    var cutoffStr = Utilities.formatDate(cutoffDate, 'Asia/Seoul', 'yyyy-MM-dd');
+
+    var allFiles = folder.getFiles();
+    while (allFiles.hasNext()) {
+      var f = allFiles.next();
+      var fname = f.getName();
+      var match = fname.match(new RegExp('^' + baseName + '_backup_(\\d{4}-\\d{2}-\\d{2})\\.json$'));
+      if (match && match[1] < cutoffStr) {
+        f.setTrashed(true);
+        console.log('오래된 백업 삭제: ' + fname);
+      }
+    }
+
+    props.setProperty(cooldownKey, todayStr);
+    console.log('다세대 백업 완료: ' + backupName);
+  } catch (e) {
+    console.warn('_backupLangIfNeeded fail (ignored):', e);
+  }
+}
+
 function getLangFile(lang, config) {
   var folder = getRootFolder(config);
   var fileName = config.langFiles[lang];
@@ -96,6 +146,7 @@ function saveLangDb(lang, data, config) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
+    _backupLangIfNeeded(lang, config);
     var file = getLangFile(lang, config);
     if (!file) { lock.releaseLock(); return { status: 'error', message: 'Invalid lang: ' + lang }; }
     file.setContent(JSON.stringify(data));
@@ -138,4 +189,63 @@ function saveLangField(lang, field, operation, value, config) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// ── 백업 목록 조회 (GAS 편집기에서 수동 실행) ──
+function listBackups() {
+  var config = USER_CONFIG['leftjap@gmail.com'];
+  var folder = getRootFolder(config);
+  var allFiles = folder.getFiles();
+  var backups = [];
+  while (allFiles.hasNext()) {
+    var f = allFiles.next();
+    var fname = f.getName();
+    if (fname.match(/_backup_\d{4}-\d{2}-\d{2}\.json$/)) {
+      var size = f.getSize();
+      var updated = f.getLastUpdated();
+      backups.push(fname + ' (' + Math.round(size / 1024) + 'KB, ' + Utilities.formatDate(updated, 'Asia/Seoul', 'yyyy-MM-dd HH:mm') + ')');
+    }
+  }
+  backups.sort();
+  console.log('=== study 백업 목록 ===');
+  if (backups.length === 0) {
+    console.log('백업 파일 없음');
+  } else {
+    for (var i = 0; i < backups.length; i++) {
+      console.log(backups[i]);
+    }
+  }
+  console.log('총 ' + backups.length + '개');
+}
+
+// ── 특정 날짜 백업에서 복원 (GAS 편집기에서 수동 실행) ──
+// 사용법: restoreFromBackup('en', '2026-03-28')
+function restoreFromBackup(lang, dateStr) {
+  var config = USER_CONFIG['leftjap@gmail.com'];
+  var folder = getRootFolder(config);
+  var fileName = config.langFiles[lang];
+  if (!fileName) { console.log('잘못된 언어: ' + lang); return; }
+  var baseName = fileName.replace('.json', '');
+  var backupName = baseName + '_backup_' + dateStr + '.json';
+  var files = folder.getFilesByName(backupName);
+  if (!files.hasNext()) {
+    console.log('백업 파일을 찾을 수 없습니다: ' + backupName);
+    return;
+  }
+  var backupFile = files.next();
+  var backupContent = backupFile.getBlob().getDataAsString();
+  var backupDb = JSON.parse(backupContent || '{}');
+
+  console.log('=== 백업 내용 (' + backupName + ') ===');
+  console.log('reviewQueue: ' + (backupDb.reviewQueue || []).length);
+  console.log('sessionLogs: ' + (backupDb.sessionLogs || []).length);
+  console.log('meta.totalDays: ' + ((backupDb.meta || {}).totalDays || 0));
+
+  // 안전장치: 확인 후 수동으로 아래 주석을 해제하여 실행
+  // var dataFile = getLangFile(lang, config);
+  // dataFile.setContent(backupContent);
+  // console.log('★ 복원 완료. 앱에서 새로고침하세요.');
+
+  console.log('');
+  console.log('복원하려면 이 함수 내부의 주석 3줄을 해제하고 다시 실행하세요.');
 }
