@@ -153,6 +153,10 @@ function injectTestData() {
 }
 
 function init() {
+  // iOS Safari 저장공간 보호 요청
+  if (navigator.storage && navigator.storage.persist) {
+    navigator.storage.persist().catch(function() {});
+  }
   initDefaultData('en');
   initDefaultData('ja');
 
