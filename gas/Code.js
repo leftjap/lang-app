@@ -100,7 +100,7 @@ function _backupLangIfNeeded(lang, config) {
     }
 
     var cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - 7);
+    cutoffDate.setDate(cutoffDate.getDate() - 30);
     var cutoffStr = Utilities.formatDate(cutoffDate, 'Asia/Seoul', 'yyyy-MM-dd');
 
     var allFiles = folder.getFiles();
@@ -149,6 +149,24 @@ function saveLangDb(lang, data, config) {
     _backupLangIfNeeded(lang, config);
     var file = getLangFile(lang, config);
     if (!file) { lock.releaseLock(); return { status: 'error', message: 'Invalid lang: ' + lang }; }
+
+    // ── 빈 payload 차단 ──
+    if (!data || (typeof data === 'object' && Object.keys(data).length === 0)) {
+      console.error('⚠️ saveLangDb 차단: 빈 payload');
+      return { status: 'error', message: 'Integrity check failed: empty payload' };
+    }
+
+    // ── reviewQueue 급감 차단 (50% 미만) ──
+    var currentContent = file.getBlob().getDataAsString();
+    var currentDb = {};
+    try { currentDb = JSON.parse(currentContent || '{}'); } catch(parseErr) {}
+    var currentQueue = currentDb.reviewQueue || [];
+    var newQueue = data.reviewQueue || [];
+    if (currentQueue.length >= 10 && newQueue.length < currentQueue.length * 0.5) {
+      console.error('⚠️ saveLangDb 차단: reviewQueue 급감. 기존 ' + currentQueue.length + '건 → 신규 ' + newQueue.length + '건');
+      return { status: 'error', message: 'Integrity check failed: reviewQueue count drop (' + currentQueue.length + ' → ' + newQueue.length + ')' };
+    }
+
     file.setContent(JSON.stringify(data));
     return { status: 'ok' };
   } catch (e) {

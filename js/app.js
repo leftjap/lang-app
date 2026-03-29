@@ -305,5 +305,13 @@ function renderStudySummary(duration) {
     '</div>';
 }
 
+// ═══ 페이지 이탈 시 비상 저장 ═══
+window.addEventListener('beforeunload', function() {
+  _flushBeforeUnload();
+});
+window.addEventListener('pagehide', function() {
+  _flushBeforeUnload();
+});
+
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', init);

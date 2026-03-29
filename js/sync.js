@@ -394,3 +394,24 @@ function showSyncToast(status) {
     }, 2500);
   }
 }
+
+// ═══ 비상 플러시: 페이지 이탈 시 미동기화 데이터 서버 전송 ═══
+function _flushBeforeUnload() {
+  if (window._beaconFlushed) return;
+  window._beaconFlushed = true;
+
+  try {
+    var lang = getCurrentLang();
+    var data = getLangData(lang);
+    if (!data || !data.meta) return;
+    var payload = JSON.stringify({
+      action: 'save_lang_db',
+      token: 'lang2026',
+      lang: lang,
+      data: data
+    });
+    if (payload.length <= 65536) {
+      navigator.sendBeacon(GAS_URL, payload);
+    }
+  } catch (e) {}
+}
