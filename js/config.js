@@ -2,7 +2,7 @@
 
 /* ═══ config.js — 설정 상수 ═══ */
 
-var GAS_URL = '__GAS_DEPLOY_URL__';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbwWIHicU2DJzK_Cf_4S5gvXSp4lvvAjOZOmx9ibhUM-KxzvEP3h8dNKdDCTFA9ppIRD/exec';
 var GOOGLE_CLIENT_ID = '910366325974-3ollm3pose37r1fvv8ngnd0v09f2p57l.apps.googleusercontent.com';
 
 var LANG_CONFIG = {
