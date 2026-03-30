@@ -1,9 +1,20 @@
 // ═══ PROJECT: study ═══
 
-/* ═══ app.js — 초기화, 학습 타이머 ═══ */
+/* ═══ app.js — 인증, 초기화, 학습 타이머 ═══ */
 
 var _studyStartTime = null;
 var _studyTimerInterval = null;
+
+function handleCredentialResponse(response) {
+  try {
+    var jwt = response.credential;
+    localStorage.setItem('study_id_token', jwt);
+    document.getElementById('lockScreen').style.display = 'none';
+    startApp();
+  } catch (e) {
+    document.getElementById('lockErr').textContent = '로그인 처리 중 오류가 발생했습니다.';
+  }
+}
 
 function hideLoadingScreen() {
   var el = document.getElementById('loadingScreen');
@@ -152,7 +163,7 @@ function injectTestData() {
   }
 }
 
-function init() {
+function startApp() {
   // iOS Safari 저장공간 보호 요청
   if (navigator.storage && navigator.storage.persist) {
     navigator.storage.persist().catch(function() {});
@@ -173,13 +184,13 @@ function init() {
 
   // 로컬 데이터로 즉시 UI 표시
   showScreen('home');
-  hideLoadingScreen();
 
   // 백그라운드에서 서버 동기화 (SWR 패턴)
   loadBothLangs(function() {
     // 빈 LS 보호 해제: 서버 데이터 수신 완료
     window._blockSaveToServer = false;
     renderHome();
+    hideLoadingScreen();
   });
 }
 
@@ -313,5 +324,22 @@ window.addEventListener('pagehide', function() {
   _flushBeforeUnload();
 });
 
-// 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', init);
+// ═══ 페이지 로드 시 초기화 (Google GSI 로드 대기) ═══
+window.onload = function() {
+  var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+  if (isLocal || localStorage.getItem('study_id_token')) {
+    document.getElementById('lockScreen').style.display = 'none';
+    startApp();
+  } else {
+    document.getElementById('lockScreen').style.display = '';
+    document.getElementById('loadingScreen').style.display = 'none';
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById('googleSignInBtn'),
+      { theme: 'outline', size: 'large', width: 280 }
+    );
+  }
+};

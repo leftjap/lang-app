@@ -1828,3 +1828,34 @@ button {
     right: auto;
   }
 }
+
+/* ═══ Lock Screen (Google 로그인) ═══ */
+.lock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-gray, #F5F5F5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lock-card {
+  text-align: center;
+  padding: 40px 32px;
+}
+.lock-brand {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark, #1a1a1a);
+  margin-bottom: 8px;
+}
+.lock-desc {
+  font-size: 14px;
+  color: var(--gray, #888);
+  margin-bottom: 32px;
+}
+.lock-err {
+  color: var(--accent, #e85040);
+  font-size: 13px;
+  margin-top: 12px;
+}

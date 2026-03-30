@@ -47,10 +47,21 @@
     src="https://js.sentry-cdn.com/f832049dffc0a6a8443eb1be41f0b152.min.js"
     crossorigin="anonymous"
   ></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/debug-utils.js?v=1"></script>
-  <link rel="stylesheet" href="style.css?v=20260325a">
+  <link rel="stylesheet" href="style.css?v=20260330a">
 </head>
 <body>
+  <!-- 잠금 화면 (Google 로그인) -->
+  <div id="lockScreen" class="lock-overlay" style="display:none;">
+    <div class="lock-card">
+      <div class="lock-brand">Study</div>
+      <div class="lock-desc">개인 학습 공간입니다. 로그인해주세요.</div>
+      <div id="googleSignInBtn"></div>
+      <div class="lock-err" id="lockErr" style="color:#e85040;font-size:13px;margin-top:12px;"></div>
+    </div>
+  </div>
+
   <!-- 로딩 화면 -->
   <div id="loadingScreen" class="loading-screen">
     <div class="loading-wrapper">
@@ -140,17 +151,17 @@
     </div>
   </div>
 
-  <script src="js/config.js?v=20260325a"></script>
-  <script src="js/storage.js?v=20260325a"></script>
-  <script src="js/sync.js?v=20260325a"></script>
-  <script src="js/calendar.js?v=20260325a"></script>
-  <script src="js/ui.js?v=20260325a"></script>
-  <script src="js/review.js?v=20260325a"></script>
-  <script src="js/lesson.js?v=20260325a"></script>
-  <script src="js/progress.js?v=20260325a"></script>
-  <script src="js/practice.js?v=20260325a"></script>
-  <script src="js/stats.js?v=20260325a"></script>
-  <script src="js/swipe.js?v=20260325a"></script>
-  <script src="js/app.js?v=20260325a"></script>
+  <script src="js/config.js?v=20260330a"></script>
+  <script src="js/storage.js?v=20260330a"></script>
+  <script src="js/sync.js?v=20260330a"></script>
+  <script src="js/calendar.js?v=20260330a"></script>
+  <script src="js/ui.js?v=20260330a"></script>
+  <script src="js/review.js?v=20260330a"></script>
+  <script src="js/lesson.js?v=20260330a"></script>
+  <script src="js/progress.js?v=20260330a"></script>
+  <script src="js/practice.js?v=20260330a"></script>
+  <script src="js/stats.js?v=20260330a"></script>
+  <script src="js/swipe.js?v=20260330a"></script>
+  <script src="js/app.js?v=20260330a"></script>
 </body>
 </html>

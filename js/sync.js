@@ -6,12 +6,30 @@ var _syncInProgress = false;
 var _saveRetryCount = 0;
 var _saveRetryTimer = null;
 
+function _getIdToken() {
+  return localStorage.getItem('study_id_token') || '';
+}
+
+function _handleUnauthorized() {
+  window._syncUnauthorized = true;
+  localStorage.removeItem('study_id_token');
+  var lockEl = document.getElementById('lockScreen');
+  if (lockEl) lockEl.style.display = '';
+  var errEl = document.getElementById('lockErr');
+  if (errEl) errEl.textContent = '접근 권한이 없는 계정입니다.';
+}
+
 function syncPost(data, callback) {
   if (!GAS_URL || GAS_URL === '__GAS_DEPLOY_URL__') {
     if (callback) callback(null);
     return;
   }
-  data.token = APP_TOKEN;
+  var idToken = _getIdToken();
+  if (!idToken) {
+    if (callback) callback(null);
+    return;
+  }
+  data.idToken = idToken;
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -21,6 +39,11 @@ function syncPost(data, callback) {
   .then(function(json) {
     if (json.status === 'error') {
       console.warn('GAS error:', json.message);
+      if (json.message === 'Unauthorized') {
+        _handleUnauthorized();
+        if (callback) callback(null);
+        return;
+      }
       showSyncToast('error');
       if (callback) callback(null);
     } else {
@@ -71,12 +94,9 @@ function mergeLangData(lang, serverData) {
       if (!sq.id) continue;
       var lq = localQMap[sq.id];
       if (lq) {
-        // 양쪽에 존재 → nextReview가 더 미래인 쪽 채택 (더 많이 통과한 것)
-        // 단, X 판정(currentInterval=1)이면 해당 쪽이 더 최신 판정이므로 채택
         var sNext = sq.nextReview || '0000-00-00';
         var lNext = lq.nextReview || '0000-00-00';
         if (sq.currentInterval === 1 && lq.currentInterval !== 1) {
-          // 서버가 X 판정 → 서버 채택 (더 최근에 틀림)
           localQMap[sq.id] = sq;
           changed = true;
         } else if (lq.currentInterval === 1 && sq.currentInterval !== 1) {
@@ -86,7 +106,6 @@ function mergeLangData(lang, serverData) {
           changed = true;
         }
       } else {
-        // 서버에만 존재 → 로컬에 추가
         localQMap[sq.id] = sq;
         changed = true;
       }
@@ -192,7 +211,6 @@ function mergeLangData(lang, serverData) {
       local.prRecords.daily = serverData.prRecords.daily;
       changed = true;
     }
-    // sentences: 서버에만 있는 키 추가
     if (serverData.prRecords.sentences) {
       if (!local.prRecords.sentences) local.prRecords.sentences = {};
       var prSKeys = Object.keys(serverData.prRecords.sentences);
@@ -206,7 +224,7 @@ function mergeLangData(lang, serverData) {
     }
   }
 
-  // todayLessons: 날짜 키 기준 병합 (서버에만 있으면 추가, 양쪽이면 로컬 유지)
+  // todayLessons: 날짜 키 기준 병합
   if (serverData.todayLessons && typeof serverData.todayLessons === 'object') {
     if (!local.todayLessons) local.todayLessons = {};
     var tlKeys = Object.keys(serverData.todayLessons);
@@ -248,7 +266,7 @@ function mergeLangData(lang, serverData) {
     }
   }
 
-  // 기타 배열/객체 필드: 서버에만 있으면 복사 (categories, weaknesses, strengths 등)
+  // 기타 배열/객체 필드: 서버에만 있으면 복사
   var copyIfMissing = ['categories', 'weaknesses', 'strengths', 'writingPatterns', 'writingErrors',
                        'contractionMap', 'linkingRules', 'kanjiReadingMap', 'pronunciationMap'];
   for (var ci = 0; ci < copyIfMissing.length; ci++) {
@@ -273,7 +291,6 @@ function loadFromServer(lang, callback) {
     if (res && res.data) {
       var changed = mergeLangData(lang, res.data);
       showSyncToast('loaded');
-      // 병합으로 로컬에만 있던 항목이 반영됐으면 서버에도 저장
       if (changed) {
         saveToServer(lang, null, true);
       }
@@ -298,7 +315,6 @@ function loadBothLangs(callback) {
       var jaChanged = false;
       if (res2 && res2.data) jaChanged = mergeLangData('ja', res2.data);
       showSyncToast('loaded');
-      // 병합으로 변경이 있었으면 서버에도 반영
       if (enChanged) saveToServer('en', null, true);
       if (jaChanged) saveToServer('ja', null, true);
       if (callback) callback();
@@ -319,7 +335,6 @@ function saveToServer(lang, callback, silent) {
   }
   var data = getLangData(lang);
   if (!data) { if (callback) callback(false); return; }
-  // 새 저장 요청 시 기존 재시도 취소
   clearTimeout(_saveRetryTimer);
   _saveRetryCount = 0;
   if (!silent) showSyncToast('saving');
@@ -404,9 +419,11 @@ function _flushBeforeUnload() {
     var lang = getCurrentLang();
     var data = getLangData(lang);
     if (!data || !data.meta) return;
+    var idToken = _getIdToken();
+    if (!idToken) return;
     var payload = JSON.stringify({
       action: 'save_lang_db',
-      token: 'lang2026',
+      idToken: idToken,
       lang: lang,
       data: data
     });

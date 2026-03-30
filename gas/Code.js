@@ -12,23 +12,61 @@ var USER_CONFIG = {
   }
 };
 
-var VALID_TOKENS = ['lang2026'];
+var ALLOWED_EMAILS = ['leftjap@gmail.com'];
 
-function getUserConfig(idToken, fallbackToken) {
-  if (idToken) {
+function _verifyGoogleIdToken(idToken) {
+  if (!idToken) return null;
+
+  try {
+    var cache = CacheService.getScriptCache();
+    var cached = cache.get('jwt_' + idToken.substring(idToken.length - 20));
+    if (cached) return JSON.parse(cached);
+  } catch (e) {}
+
+  try {
+    var url = 'https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(idToken);
+    var response = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+    var code = response.getResponseCode();
+    if (code !== 200) {
+      console.warn('tokeninfo 실패: HTTP ' + code);
+      return null;
+    }
+    var payload = JSON.parse(response.getContentText());
+
+    var expectedAud = '910366325974-3ollm3pose37r1fvv8ngnd0v09f2p57l.apps.googleusercontent.com';
+    if (payload.aud !== expectedAud) {
+      console.warn('tokeninfo aud 불일치: ' + payload.aud);
+      return null;
+    }
+
+    if (!payload.email) {
+      console.warn('tokeninfo email 없음');
+      return null;
+    }
+
+    var result = { email: payload.email };
+
     try {
-      var parts = idToken.split('.');
-      if (parts.length === 3) {
-        var decoded = Utilities.base64DecodeWebSafe(parts[1]);
-        var payload = JSON.parse(Utilities.newBlob(decoded).getDataAsString());
-        var email = payload.email;
-        if (email && USER_CONFIG[email]) return USER_CONFIG[email];
-      }
-    } catch (e) { console.warn('idToken parse fail:', e); }
+      cache.put('jwt_' + idToken.substring(idToken.length - 20), JSON.stringify(result), 21600);
+    } catch (e) {}
+
+    return result;
+  } catch (e) {
+    console.error('_verifyGoogleIdToken 에러:', e);
+    return null;
   }
-  if (fallbackToken && VALID_TOKENS.indexOf(fallbackToken) !== -1) {
-    return USER_CONFIG['leftjap@gmail.com'];
+}
+
+function _authenticate(data) {
+  var idToken = data.idToken || '';
+  var verified = _verifyGoogleIdToken(idToken);
+  if (!verified || !verified.email) return null;
+  for (var i = 0; i < ALLOWED_EMAILS.length; i++) {
+    if (ALLOWED_EMAILS[i] === verified.email) {
+      return USER_CONFIG[verified.email] || null;
+    }
   }
+  console.warn('허용되지 않은 이메일: ' + verified.email);
   return null;
 }
 
@@ -36,7 +74,7 @@ function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents || '{}');
     console.log('doPost action: ' + data.action);
-    var config = getUserConfig(data.idToken, data.token);
+    var config = _authenticate(data);
     if (!config) return _jsonResponse({ status: 'error', message: 'Unauthorized' });
     var result;
     switch (data.action) {
@@ -71,7 +109,7 @@ function getRootFolder(config) {
   return getOrCreateFolder(DriveApp.getRootFolder(), config.rootFolder);
 }
 
-// ── 다세대 백업 (1일 1회, 7일분 보관, 언어별) ──
+// ── 다세대 백업 (1일 1회, 30일분 보관, 언어별) ──
 function _backupLangIfNeeded(lang, config) {
   try {
     var props = PropertiesService.getScriptProperties();
