@@ -2,6 +2,11 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## 2026-04-02
+
+### Removed
+- tts-server/node_modules를 레포에서 제거. .gitignore 추가. (정리)
+
 ## 2026-04-01
 
 ### Added
