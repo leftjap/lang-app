@@ -2,6 +2,12 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## 2026-04-01
+
+### Added
+- PWA 아이콘 등록 — icon.png (512×512), icon-192.png (192×192) manifest.json icons 배열 추가. (manifest.json)
+- 파비콘 추가 — `<link rel="icon">` 태그 등록. (index.html)
+
 ## 2026-03-31
 
 ### Added
