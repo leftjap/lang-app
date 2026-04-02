@@ -2,6 +2,11 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## 2026-04-03
+
+### Changed
+- 백업 파일 저장 경로를 backups/ 폴더로 분리 — `apps/study/` → `backups/study/`. 운영 DB 경로는 유지. (gas/Code.js)
+
 ## 2026-04-02 (2)
 
 ### Changed

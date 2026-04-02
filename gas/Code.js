@@ -90,6 +90,12 @@ function getOrCreateFolder(parentFolder, name) {
   return parentFolder.createFolder(name);
 }
 
+function _getStudyBackupFolder() {
+  var root = DriveApp.getRootFolder();
+  var backups = getOrCreateFolder(root, 'backups');
+  return getOrCreateFolder(backups, 'study');
+}
+
 // ═══ Drive 경로: apps/study/ ═══
 function getRootFolder(config) {
   var apps = getOrCreateFolder(DriveApp.getRootFolder(), 'apps');
@@ -107,6 +113,7 @@ function _backupLangIfNeeded(lang, config) {
     if (lastBackupDate === todayStr) return;
 
     var folder = getRootFolder(config);
+    var backupFolder = _getStudyBackupFolder();
     var file = getLangFile(lang, config);
     if (!file) return;
     var content = file.getBlob().getDataAsString();
@@ -117,18 +124,18 @@ function _backupLangIfNeeded(lang, config) {
     var baseName = fileName.replace('.json', '');
     var backupName = baseName + '_backup_' + todayStr + '.json';
 
-    var existingFiles = folder.getFilesByName(backupName);
+    var existingFiles = backupFolder.getFilesByName(backupName);
     if (existingFiles.hasNext()) {
       existingFiles.next().setContent(content);
     } else {
-      folder.createFile(backupName, content, MimeType.PLAIN_TEXT);
+      backupFolder.createFile(backupName, content, MimeType.PLAIN_TEXT);
     }
 
     var cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 30);
     var cutoffStr = Utilities.formatDate(cutoffDate, 'Asia/Seoul', 'yyyy-MM-dd');
 
-    var allFiles = folder.getFiles();
+    var allFiles = backupFolder.getFiles();
     while (allFiles.hasNext()) {
       var f = allFiles.next();
       var fname = f.getName();
