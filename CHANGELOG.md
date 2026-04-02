@@ -4,6 +4,11 @@
 
 ## 2026-04-02
 
+### Added
+- Guard 등록: 복습 판정 O/△/X 불변 조건 — AGENTS.md 보호 체크리스트 + tests/review-judge.test.js. (AGENTS.md, tests/review-judge.test.js)
+- Guard 등록: 언어 전환 데이터 격리 불변 조건 — AGENTS.md 보호 체크리스트 + tests/lang-switch.test.js. (AGENTS.md, tests/lang-switch.test.js)
+- 테스트 인프라: package.json + Node.js 테스트 러너 설정, tests/setup.js 헬퍼. (package.json, tests/setup.js)
+
 ### Removed
 - tts-server/node_modules를 레포에서 제거. .gitignore 추가. (정리)
 
