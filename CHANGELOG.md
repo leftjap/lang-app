@@ -7,6 +7,7 @@
 ### Added
 - Guard 등록: 복습 판정 O/△/X 불변 조건 — AGENTS.md 보호 체크리스트 + tests/review-judge.test.js. (AGENTS.md, tests/review-judge.test.js)
 - Guard 등록: 언어 전환 데이터 격리 불변 조건 — AGENTS.md 보호 체크리스트 + tests/lang-switch.test.js. (AGENTS.md, tests/lang-switch.test.js)
+- Guard 등록: mergeLangData 병합 불변 조건 — AGENTS.md 보호 체크리스트 + tests/merge-lang.test.js. (AGENTS.md, tests/merge-lang.test.js)
 - 테스트 인프라: package.json + Node.js 테스트 러너 설정, tests/setup.js 헬퍼. (package.json, tests/setup.js)
 
 ### Removed
