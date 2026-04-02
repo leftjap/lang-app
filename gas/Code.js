@@ -90,8 +90,10 @@ function getOrCreateFolder(parentFolder, name) {
   return parentFolder.createFolder(name);
 }
 
+// ═══ Drive 경로: apps/study/ ═══
 function getRootFolder(config) {
-  return getOrCreateFolder(DriveApp.getRootFolder(), config.rootFolder);
+  var apps = getOrCreateFolder(DriveApp.getRootFolder(), 'apps');
+  return getOrCreateFolder(apps, 'study');
 }
 
 // ── 다세대 백업 (1일 1회, 30일분 보관, 언어별) ──
