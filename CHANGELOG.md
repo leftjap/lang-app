@@ -9,6 +9,7 @@
 - CLAUDE.md에 보호 코드 주의사항 4건 추가 — Haiku 코딩 시 보호 조건 인지용. (CLAUDE.md)
 
 ### Added
+- GAS deploy.ps1에 스모크 테스트 추가 — 배포 후 GET 요청으로 정상 응답 확인, 실패 시 exit 1. (gas/deploy.ps1)
 - Guard 등록: 복습 판정 O/△/X 불변 조건 — AGENTS.md 보호 체크리스트 + tests/review-judge.test.js. (AGENTS.md, tests/review-judge.test.js)
 - Guard 등록: 언어 전환 데이터 격리 불변 조건 — AGENTS.md 보호 체크리스트 + tests/lang-switch.test.js. (AGENTS.md, tests/lang-switch.test.js)
 - Guard 등록: mergeLangData 병합 불변 조건 — AGENTS.md 보호 체크리스트 + tests/merge-lang.test.js. (AGENTS.md, tests/merge-lang.test.js)
