@@ -6,6 +6,7 @@
 
 ### Changed
 - 파비콘을 favicon-32.png(32x32)로 교체, apple-touch-icon을 icon-192.png로 교체. 불필요 파일(icon.png, 아이콘.png) 삭제. (index.html, manifest.json)
+- CLAUDE.md에 보호 코드 주의사항 4건 추가 — Haiku 코딩 시 보호 조건 인지용. (CLAUDE.md)
 
 ### Added
 - Guard 등록: 복습 판정 O/△/X 불변 조건 — AGENTS.md 보호 체크리스트 + tests/review-judge.test.js. (AGENTS.md, tests/review-judge.test.js)
