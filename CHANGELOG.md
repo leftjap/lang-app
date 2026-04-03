@@ -7,6 +7,9 @@
 ### Changed
 - 백업 파일 저장 경로를 backups/ 폴더로 분리 — `apps/study/` → `backups/study/`. 운영 DB 경로는 유지. (gas/Code.js)
 
+### Added
+- CSS Guard 정적 테스트 추가 — B-57 PROTECT 속성 근접성 검증 10개 케이스. (style.css, tests/css-guard.test.js, AGENTS.md)
+
 ## 2026-04-02 (2)
 
 ### Changed

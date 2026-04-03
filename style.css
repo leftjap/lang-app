@@ -164,6 +164,7 @@ button {
 }
 
 /* ── 학습 진행 헤더 ── */
+/* B-57 PROTECT: position fixed + safe-area-inset-top + z-index */
 .study-header {
   position: fixed;
   top: 0;
@@ -476,6 +477,7 @@ button {
 }
 
 /* ── 하단 고정 버튼 ── */
+/* B-57 PROTECT: position fixed + safe-area-inset-bottom + z-index */
 .start-study {
   position: fixed;
   bottom: max(20px, env(safe-area-inset-bottom, 0px));
@@ -506,6 +508,7 @@ button {
 }
 
 /* ── 학습 진행 화면 ── */
+/* B-57 PROTECT: safe-area-inset-top padding */
 .study-content {
   padding: calc(env(safe-area-inset-top, 0px) + 44px) 0 0 0;
 }
@@ -554,6 +557,7 @@ button {
 }
 
 /* 카드 영역 */
+/* B-57 PROTECT: safe-area-inset-bottom padding */
 .card-area {
   padding: 16px 20px calc(80px + max(0px, env(safe-area-inset-bottom))) 20px;
 }
@@ -1238,6 +1242,7 @@ button {
 }
 
 /* ── 기록 화면 ── */
+/* B-57 PROTECT: safe-area-inset-bottom padding */
 .stats-screen-content {
   background: var(--bg-gray);
   min-height: 100vh;
@@ -1245,6 +1250,7 @@ button {
   padding-bottom: calc(40px + max(0px, env(safe-area-inset-bottom)));
 }
 
+/* B-57 PROTECT: safe-area-inset-top padding */
 .stats-header {
   display: flex;
   align-items: center;
@@ -1437,6 +1443,7 @@ button {
   z-index: 200;
 }
 
+/* B-57 PROTECT: safe-area-inset-bottom padding */
 .bottom-sheet {
   position: fixed;
   bottom: 0;
@@ -1488,6 +1495,7 @@ button {
   pointer-events: auto;
 }
 
+/* B-57 PROTECT: safe-area-inset-bottom padding */
 .action-sheet {
   position: fixed;
   bottom: 0;
@@ -1608,6 +1616,7 @@ button {
 }
 
 /* ── 동기화 토스트 ── */
+/* B-57 PROTECT: safe-area-inset-bottom position */
 .sync-toast {
   position: fixed;
   bottom: calc(max(20px, env(safe-area-inset-bottom, 0px)) + 70px);
