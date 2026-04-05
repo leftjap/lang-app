@@ -2,6 +2,11 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## 2026-04-05
+
+### Changed
+- .gitignore 보강 — gas/.clasp.json, .claude/ 추가. gym/keep 레포와 통일. (.gitignore)
+
 ## 2026-04-03
 
 ### Changed
